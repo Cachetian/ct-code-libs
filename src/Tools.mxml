@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:view="view.*" 
+					   showStatusBar="false"
+					   creationComplete="process()">
+	<fx:Script>
+		<![CDATA[
+			import core.logging.DailyRollingFileTarget;
+			import core.utils.FileUtil;
+			
+			import mx.controls.HTML;
+			import mx.logging.Log;
+			import mx.logging.LogEventLevel;
+			import mx.logging.targets.TraceTarget;
+			
+			import spark.components.TextInput;
+			
+			private var rslLoader:Loader = new Loader();
+			protected function process():void
+			{
+				var rslUrl:String = "lib" + File.separator + "library.swf";
+				var request:URLRequest = new URLRequest(rslUrl);
+				var context:LoaderContext = new LoaderContext();
+				context.applicationDomain = ApplicationDomain.currentDomain;
+				rslLoader.load(request, context);
+				rslLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, onRslItemLoaded);  
+			}
+			private function onRslItemLoaded(e:Event):void
+			{
+				var pageInfoXML:XML = FileUtil.loadLocalXMLFile("data/PageInfo.xml");
+				var pageXMLList:XMLList = pageInfoXML.pageInfo.page;
+				for each (var pageXML:XML in pageXMLList) 
+				{
+					var clazz:String = pageXML.@clazz;
+					var viewClass:Class = getDefinitionByName(clazz) as Class;
+					var view:Object=new viewClass();
+					navigator.addItem(view);
+				}
+			}
+			
+			private var html:HTML;
+			private var textInput:TextInput;
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:ViewStack id="navigator" top="0" right="0" left="0" bottom="0" />
+	<s:TabBar dataProvider="{navigator}" left="0" right="0" bottom="0"/>
+</s:WindowedApplication>

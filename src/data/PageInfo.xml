@@ -1,0 +1,5 @@
+<root>
+	<pageInfo>
+		<page clazz="view.MainView"></page>
+	</pageInfo>
+</root>

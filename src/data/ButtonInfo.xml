@@ -1,0 +1,9 @@
+<root>
+	<buttonInfo>
+		<button id="delXfer" label="删除Xfer" ifunction="functions.DelXfer" ></button>
+		<button id="cleanDesktop" label="清理桌面" ifunction="functions.CleanDesktop" ></button>
+		<button id="autoLogonZijinOnlineOffice" label="登陆紫金办公平台" ifunction="functions.AutoLogonZijinOnlineOffice" ></button>
+		<button id="modifyRecord" label="生成修改记录" ifunction="functions.SVNLogToModifyRecord" ></button>
+		<button id="displayIP" label="显示IP" ifunction="functions.DisplayIP" ></button>
+	</buttonInfo>
+</root>

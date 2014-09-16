@@ -1,0 +1,1186 @@
+Revision: 280
+Author: ywchen
+Date: 2014年9月15日 8:47:54
+Message:
+1.将“凭证回收口”改为“表单回收模块”。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_functions.js
+
+Revision: 279
+Author: ywchen
+Date: 2014年9月15日 8:47:40
+Message:
+1.将“凭证回收口”改为“表单回收模块”。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/index.html
+
+Revision: 278
+Author: tianmu
+Date: 2014年9月12日 18:36:01
+Message:
+1.解决坐席退出插入交互日志失败异常问题，缺少"".equals条件引起。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/entity/InteractionLog.java
+
+Revision: 277
+Author: ywchen
+Date: 2014年9月12日 18:35:18
+Message:
+1.去掉初始化脚本里权限的 “删除登录日志 ”、“删除操作日志”。
+2.去掉权限配置中的“删除交易记录”、“删除工作记录”、“删除交互日志”、“查看交互日志”。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/dbScript/02_Table_Data/02_table_data.sql
+
+Revision: 276
+Author: ywchen
+Date: 2014年9月12日 18:30:54
+Message:
+1.清除登录日志的删除、清空功能。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/loginlogmng.html
+
+Revision: 275
+Author: ywchen
+Date: 2014年9月12日 18:30:03
+Message:
+1.去掉操作日志的删除、清空功能。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/operatelogmng.html
+
+Revision: 274
+Author: ywchen
+Date: 2014年9月12日 18:25:20
+Message:
+1解决用户管理中姓名或登录用户名查询无效问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/usermng.html
+
+Revision: 273
+Author: ywchen
+Date: 2014年9月12日 18:23:42
+Message:
+1解决用户管理中姓名或登录用户名查询无效问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/manager/UserManageController.java
+
+Revision: 272
+Author: tianmu
+Date: 2014年9月12日 11:19:30
+Message:
+1.解决管理台有时登录进去不显示姓名的问题。调整了设置displayName和username的顺序。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/frontend/UserController.java
+
+Revision: 271
+Author: tianmu
+Date: 2014年9月12日 10:01:42
+Message:
+1.解决管理台有时登录进去不显示姓名的问题。调整了设置displayName和username的顺序。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/frontend/UserController.java
+
+Revision: 270
+Author: tianmu
+Date: 2014年9月11日 20:33:33
+Message:
+BEEB_VTA_1.0.0S_Beta3 预投产版本
+1.增加定期删除ftp图片功能
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/applicationContext.xml
+Deleted : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/lib/mysql-connector-java-5.1.22.jar
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/lib/quartz-1.8.6.jar
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/lib/quartz-all-1.8.6.jar
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/lib/quartz-commonj-1.8.6.jar
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/lib/quartz-examples-1.8.6.jar
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/lib/quartz-jboss-1.8.6.jar
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/lib/quartz-oracle-1.8.6.jar
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/lib/quartz-weblogic-1.8.6.jar
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/lib/spring-context-support-4.0.0.RELEASE.jar
+Added : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/dao/util/DBJob.java
+Added : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/schedule
+Added : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/schedule/ClearJob.java
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/service/FileService.java
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/service/impl/FileServiceImpl.java
+Added : /trunk/YZBVTA/4.编码/BeebVTA/src/quartz.properties
+
+Revision: 269
+Author: tianmu
+Date: 2014年9月11日 19:45:01
+Message:
+1.删除掉测试代码，写死的身份证号。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/transactionmng.html
+
+Revision: 268
+Author: tianmu
+Date: 2014年9月11日 19:27:55
+Message:
+1.删除*.class文件
+----
+Deleted : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes
+
+Revision: 267
+Author: tianmu
+Date: 2014年9月11日 19:26:25
+Message:
+1.解决加载两次ApplicationContext的问题
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/dao/util/HibernateSuport.java
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/filter/ResourceAccessFilter.java
+
+Revision: 266
+Author: ywchen
+Date: 2014年9月11日 19:24:27
+Message:
+1.将建行的welcome.png替换成鄞州银行提供的welcome.png。
+2.修改vtmc提交交易结束报文时拍照窗口未回到副屏幕中去的问题。
+3.修改vtmc提交交易结束报文时拍照窗口未回到副屏幕中去的问题。
+4.解决关闭浏览器退出模式下调用两次退出接口问题。
+5.增加日志记录功能，形成日志文件。
+6.去掉配置动作。
+7.需要配置的动作直接在脚本语言中写死。
+8.解决关闭浏览器退出模式下调用两次退出接口问题。
+9._H.bmp改为_H.jpg,以解决图片格式不正确无法显示图片的问题。
+10._QM.gif图片去掉，不需要用到这个图片。
+----
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/bean
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/bean/RawData.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/bean/StatusInfo.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/bean/StatusOperateLog.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/bean/TellerServiceCountRecord.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/bean/TellerStatusCountRecord.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/bean/TimeSpan.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/bean/VtaCountInfoQueryBean.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/bean/VtaOperateType.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/bean/VtaServiceInfo.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/bean/VtaServiceInfoQueryBean.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/bean/VtaStatusInfo.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/bean/VtaStatusInfoQueryBean.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/bean/VtaStatusType.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/controller
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/controller/TellerServiceCountController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/controller/TellerServiceCountController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/controller/TellerServiceCountController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/controller/TellerServiceCountController$4.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/controller/TellerServiceCountController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/dao
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/dao/TellerOperateLogDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/dao/impl
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/dao/impl/TellerOperateLogDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/entity
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/entity/TellerOperateLog.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/entity/TellerOperateLog.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/service
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/service/TellerServiceCountService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/service/impl
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/beeb/service/impl/TellerServiceCountServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/frontend
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/frontend/BusinessController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/frontend/LogController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/frontend/PictureController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/frontend/SystemParameterController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/frontend/TellerStatusController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/frontend/UserController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/ActionManageController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/ActionManageController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/ActionManageController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/ActionManageController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/AuthorityManageController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/AuthorityManageController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/AuthorityManageController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/AuthorityManageController$4.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/AuthorityManageController$5.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/AuthorityManageController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessManageController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessManageController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessManageController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessManageController$4.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessManageController$5.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessManageController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessStepManageController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessStepManageController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessStepManageController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessStepManageController$4.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessStepManageController$5.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessStepManageController$6.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessStepManageController$7.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessStepManageController$8.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/BusinessStepManageController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/DepartmentManageController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/DepartmentManageController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/DepartmentManageController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/DepartmentManageController$4.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/DepartmentManageController$5.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/DepartmentManageController$6.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/DepartmentManageController$7.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/DepartmentManageController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/InteractionLogManageController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/InteractionLogManageController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/InteractionLogManageController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/InteractionLogManageController$4.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/InteractionLogManageController$5.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/InteractionLogManageController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/LoginLogManageController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/LoginLogManageController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/LoginLogManageController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/LoginLogManageController$4.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/LoginLogManageController$5.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/LoginLogManageController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/OprateLogManageController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/OprateLogManageController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/OprateLogManageController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/OprateLogManageController$4.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/OprateLogManageController$5.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/OprateLogManageController$6.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/OprateLogManageController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/RoleAuthorityManageController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/RoleAuthorityManageController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/RoleAuthorityManageController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/RoleAuthorityManageController$4.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/RoleAuthorityManageController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/SystemParameterManageController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/SystemParameterManageController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/SystemParameterManageController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/SystemParameterManageController$4.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/SystemParameterManageController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/TransactionErrorManageController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/TransactionErrorManageController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/TransactionErrorManageController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/TransactionErrorManageController$4.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/TransactionErrorManageController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/TransactionManageController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/TransactionManageController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/TransactionManageController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/TransactionManageController$4.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/TransactionManageController$5.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/TransactionManageController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/UserManageController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/UserManageController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/UserManageController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/UserManageController$4.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/UserManageController$5.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/UserManageController$6.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/UserManageController$7.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/UserManageController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/WorkLogController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/WorkLogController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/WorkLogController$3.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/WorkLogController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/WorkStatisticController$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/WorkStatisticController$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/controller/manager/WorkStatisticController.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/ActionDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/AuthorityDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/BusinessProcessDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/BusinessStepDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/DepartmentDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/InteractionLogDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/LoginLogDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/OperateLogDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/RoleAuthorityMapDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/RoleDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/StepActionMapDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/StepPictureDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/SystemParameterDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/TransactionErrorDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/TransactionLogDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/TransactionStepLogDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/UserDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/UserRoleMapDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/WorkLogDao.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/ActionDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/AuthorityDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/BusinessProcessDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/BusinessStepDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/DepartmentDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/InteractionLogDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/LoginLogDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/OperateLogDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/RoleAuthorityMapDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/RoleDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/StepActionMapDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/StepPictureDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/SystemParameterDaoImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/TransactionErrorDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/TransactionLogDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/TransactionStepLogDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/UserDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/UserRoleMapDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/impl/WorkLogDaoHibernate.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/util
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/util/HibernateDaoUtil.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dao/util/HibernateSuport.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dstool
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dstool/DepartmentNode.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/dstool/DepartmentTree.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/Action.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/Action.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/Authority.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/Authority.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/BusinessProcess.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/BusinessProcess.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/BusinessStep.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/BusinessStep.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/Department.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/Department.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/InteractionLog.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/InteractionLog.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/LoginLog.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/LoginLog.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/OperateLog.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/OperateLog.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/Role.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/Role.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/RoleAuthorityMap.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/RoleAuthorityMap.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/StepActionMap.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/StepActionMap.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/StepPicture.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/StepPicture.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/SystemParameter.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/SystemParameter.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/TellerWorkStatistic.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/TransactionError.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/TransactionError.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/TransactionLog.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/TransactionLog.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/TransactionStepLog.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/TransactionStepLog.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/User.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/User.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/UserRoleMap.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/UserRoleMap.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/WorkLog.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/entity/WorkLog.hbm.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/exception
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/exception/ExceptionHandler.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/filter
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/filter/ResourceAccessFilter.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/listener
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/listener/VtaSessionListener.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/ActionManageService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/AuthorizationService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/BusinessManageService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/BusinessService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/DepartmentService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/FileService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/FormService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/InitDBService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/LogManageService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/LogService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/OperateLogService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/RoleAuthorityManageService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/RoleService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/StepManageService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/SystemParameterService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/TransactionErrorService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/TransactionManageService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/UserService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/WorkLogService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/WorkStatisticService.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/ActionManageServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/AuthorizationServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/BusinessManageServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/BusinessServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/DepartmentServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/FileServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/FormServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/LogManageServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/LogServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/OperateLogServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/RoleAuthorityManageServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/RoleServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/Step.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/StepManageServiceImpl$1.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/StepManageServiceImpl$2.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/StepManageServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/SystemParameterServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/TransactionErrorServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/TransactionManageServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/UserServieceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/WorkLogServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/impl/WorkStatisticServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/pretreatment
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/pretreatment/CommonDataHandle.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/pretreatment/ComplexDataHandle.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/pretreatment/InitDBServiceImpl.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/pretreatment/PeripheralParam.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/pretreatment/PeripheralProcess.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/service/pretreatment/SimpleDataHandle.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/util
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/util/Authorization.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/util/Event.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/util/EventStatistic.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/util/ExportExcel.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/util/LogoutRecorder.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/util/MD5Util.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/util/ParamMapUtil.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/util/RandomString.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/util/ServletUtil.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/util/TimeUtils.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/com/zjft/vta/util/WorkRecorder.class
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/config
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/config/spring
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/config/spring/springmvc-servlet.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/jdbc.properties
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/classes/log4j2.xml
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/lib/jsf-api.jar
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/lib/jsf-impl.jar
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/WEB-INF/lib/jstl-1.2.jar
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_ui.js
+
+Revision: 265
+Author: ywchen
+Date: 2014年9月11日 16:22:27
+Message:
+1.T_VTA_INTERACTION_LOG中的INTERACTION_NAME的值由32改为64.
+2.添加T_VTA_TRANSACTION_LOG中的ARRANGE_LENGTH/ARRANGE_TIMES.
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/dbScript/02_Table_Data/02_table_data.sql
+
+Revision: 264
+Author: ywchen
+Date: 2014年9月11日 16:01:31
+Message:
+1.修改webpath路径生成的代码行，解决生成错误路径VTAbusinessPicture问题，正确路径应该是VTA/businessPicture。
+2.解决查看凭证不显示图片问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/frontend/PictureController.java
+
+Revision: 263
+Author: tianmu
+Date: 2014年9月11日 15:59:22
+Message:
+1.解决关闭浏览器退出模式下调用两次退出接口问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_ui.js
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/manage.jsp
+
+Revision: 262
+Author: ywchen
+Date: 2014年9月11日 15:57:40
+Message:
+1.修改vtmc提交交易结束报文时拍照窗口未回到副屏幕中去的问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_functions.js
+
+Revision: 261
+Author: ywchen
+Date: 2014年9月11日 15:57:29
+Message:
+1.修改vtmc提交交易结束报文时拍照窗口未回到副屏幕中去的问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_message.js
+
+Revision: 260
+Author: tianmu
+Date: 2014年9月11日 15:57:17
+Message:
+1.增加接口函数日志打印
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/frontend/TellerStatusController.java
+
+Revision: 259
+Author: tianmu
+Date: 2014年9月11日 15:56:51
+Message:
+1.修改退出逻辑错误，正常退出会进入非法分支。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/frontend/UserController.java
+
+Revision: 258
+Author: ywchen
+Date: 2014年9月11日 14:39:50
+Message:
+1._H.bmp改为_H.jpg,以解决图片格式不正确无法显示图片的问题。
+2._QM.gif图片去掉，不需要用到这个图片。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/transactionmng.html
+
+Revision: 257
+Author: ywchen
+Date: 2014年9月11日 14:37:34
+Message:
+1.增加日志记录功能，形成日志文件。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_utils.js
+
+Revision: 256
+Author: ywchen
+Date: 2014年9月11日 14:36:42
+Message:
+1.去掉配置动作。
+2.需要配置的动作直接在脚本语言中写死。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/businessstepmng.html
+
+Revision: 255
+Author: ywchen
+Date: 2014年9月11日 14:33:38
+Message:
+1.将建行的welcome.png替换成鄞州银行提供的welcome.png。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/images/Welcome.png
+
+Revision: 254
+Author: tianmu
+Date: 2014年9月11日 14:20:29
+Message:
+1.解决transactionType中文内容乱码问题
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/bank/js/app/manager/VtaServiceCount.js
+
+Revision: 253
+Author: tianmu
+Date: 2014年9月11日 14:19:32
+Message:
+1.解决transactionType中文内容乱码问题
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/beeb/controller/TellerServiceCountController.java
+
+Revision: 252
+Author: tianmu
+Date: 2014年9月11日 13:54:24
+Message:
+1.解决柜员管理报表arrangLength，arrangetimes字段值空引起的查询异常。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/entity/WorkLog.hbm.xml
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/entity/WorkLog.java
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/service/impl/FormServiceImpl.java
+
+Revision: 251
+Author: ywchen
+Date: 2014年9月10日 8:57:23
+Message:
+1.添加arrangeLength/arrangeTimes字段，解决“事后处理时长”无数据问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/entity/WorkLog.hbm.xml
+
+Revision: 249
+Author: ywchen
+Date: 2014年9月5日 20:42:11
+Message:
+1.去掉协助输入中“职业选择”功能。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/index.html
+
+Revision: 248
+Author: ywchen
+Date: 2014年9月5日 20:38:51
+Message:
+1.修改坐席端退出方式，改为退出时直接关闭浏览器。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_ui.js
+
+Revision: 247
+Author: ywchen
+Date: 2014年9月5日 20:37:24
+Message:
+1.修改管理台退出方式，点击退出时直接关闭浏览器。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/manage.jsp
+
+Revision: 239
+Author: tianmu
+Date: 2014年8月26日 17:17:19
+Message:
+1.解决坐席服务率统计，坐席状态统计界面日期选择框选择今天不能自动关闭问题，由于jquery版本不同引起。
+2.解决交易记录管理界不该显示id字段问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/transactionmng.html
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/bank/html/app/manager/VtaServiceCount.html
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/bank/html/app/manager/VtaStatusCount.html
+
+Revision: 238
+Author: ywchen
+Date: 2014年8月26日 15:55:11
+Message:
+1.将日期限制条件放在click中。
+2.解决点击查询时显示数据问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/workstatistic.html
+
+Revision: 237
+Author: ywchen
+Date: 2014年8月26日 15:54:59
+Message:
+1.将日期限制条件放在click中。
+2.解决点击查询时显示数据问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/worklogmng.html
+
+Revision: 236
+Author: ywchen
+Date: 2014年8月26日 15:54:50
+Message:
+1.将日期限制条件放在click中。
+2.解决点击查询时显示数据问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/transactionmng.html
+
+Revision: 235
+Author: ywchen
+Date: 2014年8月26日 15:54:41
+Message:
+1.将日期限制条件放在click中。
+2.解决点击查询时显示数据问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/operatelogmng.html
+
+Revision: 234
+Author: ywchen
+Date: 2014年8月26日 15:54:31
+Message:
+1.将日期限制条件放在click中。
+2.解决点击查询时显示数据问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/loginlogmng.html
+
+Revision: 233
+Author: ywchen
+Date: 2014年8月26日 15:54:21
+Message:
+1.将日期限制条件放在click中。
+2.解决点击查询时显示数据问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/interactionlogmng.html
+
+Revision: 232
+Author: ywchen
+Date: 2014年8月26日 15:52:16
+Message:
+1.修改代码，解决点击查询时显示数据问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/beeb/controller/TellerServiceCountController.java
+
+Revision: 231
+Author: ywchen
+Date: 2014年8月26日 15:52:02
+Message:
+1.修改代码，解决点击查询时显示数据问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/dao/impl/WorkLogDaoHibernate.java
+
+Revision: 230
+Author: ywchen
+Date: 2014年8月26日 15:51:53
+Message:
+1.修改代码，解决点击查询时显示数据问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/dao/impl/OperateLogDaoHibernate.java
+
+Revision: 229
+Author: ywchen
+Date: 2014年8月26日 15:51:45
+Message:
+1.修改代码，解决点击查询时显示数据问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/dao/impl/LoginLogDaoHibernate.java
+
+Revision: 228
+Author: ywchen
+Date: 2014年8月26日 15:51:36
+Message:
+1.修改代码，解决点击查询时显示数据问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/dao/impl/InteractionLogDaoHibernate.java
+
+Revision: 227
+Author: ywchen
+Date: 2014年8月26日 10:39:14
+Message:
+1.修改LIKE 为 EQ，将模糊查找改为不支持模糊查找。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/beeb/dao/impl/TellerOperateLogDaoHibernate.java
+
+Revision: 226
+Author: ywchen
+Date: 2014年8月26日 10:38:00
+Message:
+1.在新增或修改页面，修改姓名的输入框错位和“登路密码”错别字  问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/usermng.html
+
+Revision: 225
+Author: ywchen
+Date: 2014年8月26日 10:35:18
+Message:
+1.修改 VTAservices为“坐席服务率统计”，VTAstatus为“坐席状态管理”。  
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/operatelogmng.html
+
+Revision: 224
+Author: ywchen
+Date: 2014年8月26日 10:31:25
+Message:
+1.修改 用户数据显示相同的问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/dao/impl/WorkLogDaoHibernate.java
+
+Revision: 218
+Author: tianmu
+Date: 2014年8月25日 8:11:18
+Message:
+
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/.settings/org.eclipse.core.resources.prefs
+
+Revision: 217
+Author: tianmu
+Date: 2014年8月22日 19:05:56
+Message:
+
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/login.html
+
+Revision: 216
+Author: tianmu
+Date: 2014年8月22日 18:59:49
+Message:
+1.解决查看凭证无照片问题。同步于CCBVTA代码
+2.解决交易结束无错误原因问题。同步于CCBVTA代码
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_ui.js
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_functions.js
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_message.js
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_flow.js
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_status.js
+
+Revision: 215
+Author: tianmu
+Date: 2014年8月22日 14:58:08
+Message:
+1.解决设备状态高拍仪字样未在按钮下发居中问题。
+2.解决没有工作中状态的问题。
+3.修改错别字，setButonClick->setButtonClick
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_ui.js
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/index.html
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_status.js
+
+Revision: 214
+Author: tianmu
+Date: 2014年8月22日 11:31:36
+Message:
+1.注释写了两行，删除多余行
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/bank/js/app/manager/VtaStatusCount.js
+
+Revision: 213
+Author: tianmu
+Date: 2014年8月22日 11:24:52
+Message:
+1.解决除了空闲状态外的状态单独查询的时候没有坐席名问题
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/bank/js/app/manager/VtaStatusCount.js
+
+Revision: 212
+Author: tianmu
+Date: 2014年8月22日 11:22:27
+Message:
+1.新增需求，管理台界面上的“用户名”改为“姓名”。（修改userInLastSession类型String->User）
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/frontend/UserController.java
+
+Revision: 211
+Author: ywchen
+Date: 2014年8月22日 10:20:27
+Message:
+1.修改delete块中字母大小写问题，解决交易日志删除无效问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/manager/InteractionLogManageController.java
+
+Revision: 210
+Author: ywchen
+Date: 2014年8月22日 8:51:26
+Message:
+1.修改开始时间晚于结束时间，或结束时间大于当前时间时，仍可刷新出数据的问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/beeb/controller/TellerServiceCountController.java
+
+Revision: 209
+Author: ywchen
+Date: 2014年8月22日 8:48:49
+Message:
+1.修改开始时间晚于结束时间，或结束时间大于当前时间时，仍可刷新出数据的问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/dao/impl/OperateLogDaoHibernate.java
+
+Revision: 208
+Author: ywchen
+Date: 2014年8月22日 8:48:40
+Message:
+1.修改开始时间晚于结束时间，或结束时间大于当前时间时，仍可刷新出数据的问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/dao/impl/InteractionLogDaoHibernate.java
+
+Revision: 207
+Author: ywchen
+Date: 2014年8月22日 8:48:30
+Message:
+1.修改开始时间晚于结束时间，或结束时间大于当前时间时，仍可刷新出数据的问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/dao/impl/LoginLogDaoHibernate.java
+
+Revision: 206
+Author: ywchen
+Date: 2014年8月22日 8:47:58
+Message:
+1.修改开始时间晚于结束时间，或结束时间大于当前时间时，仍可刷新出数据的问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/dao/impl/WorkLogDaoHibernate.java
+
+Revision: 205
+Author: tianmu
+Date: 2014年8月21日 21:34:58
+Message:
+1.解决操作日志删除多条时结果反而增多的逻辑错误。由于代码逻辑为在前端循环删除引起，此处不适合用前端循环删除。操作日志增加后端删除多条接口。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/operatelogmng.html
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/manager/OprateLogManageController.java
+
+Revision: 204
+Author: tianmu
+Date: 2014年8月21日 20:28:06
+Message:
+1.解决坐席修改密码时，修改错误提示出现时，突然出现滚动条，由于修改密码窗口不够大引起。
+2.解决柜员管理报表时候处理总时长和登录总时长字段写错问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_ui.js
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/workstatistic.html
+
+Revision: 203
+Author: tianmu
+Date: 2014年8月21日 20:14:31
+Message:
+1.新增需求，管理台界面上的“用户名”改为“姓名”
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/frontend/UserController.java
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/manage.jsp
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/usermng.html
+
+Revision: 202
+Author: tianmu
+Date: 2014年8月21日 19:50:26
+Message:
+1.修改错别字，登陆->登录
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/manage.jsp
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/operatelogmng.html
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/rolemng.html
+
+Revision: 201
+Author: tianmu
+Date: 2014年8月21日 17:48:52
+Message:
+1.根据需要，数据脚本移至WebRoot
+----
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/dbScript (Copy from path: /trunk/YZBVTA/4.编码/dbScript, Revision, 200)
+Deleted : /trunk/YZBVTA/4.编码/dbScript
+
+Revision: 200
+Author: ywchen
+Date: 2014年8月21日 16:58:48
+Message:
+1.增加结束日期不能大于当前日期的限制条件。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/worklogmng.html
+
+Revision: 199
+Author: tianmu
+Date: 2014年8月21日 16:15:14
+Message:
+1.解决工作记录管理worklogmng.html源码覆盖错，回滚至179版本
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/worklogmng.html
+
+Revision: 198
+Author: ywchen
+Date: 2014年8月21日 14:46:58
+Message:
+1.增加结束日期不能大于当前日期的限制条件。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/workstatistic.html
+
+Revision: 197
+Author: ywchen
+Date: 2014年8月21日 14:17:12
+Message:
+1.增加给定结束日期不能大于当前日期的限制条件。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/transactionmng.html
+
+Revision: 196
+Author: ywchen
+Date: 2014年8月21日 14:17:02
+Message:
+1.增加给定结束日期不能大于当前日期的限制条件。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/loginlogmng.html
+
+Revision: 195
+Author: ywchen
+Date: 2014年8月21日 14:16:52
+Message:
+1.增加给定结束日期不能大于当前日期的限制条件。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/interactionlogmng.html
+
+Revision: 194
+Author: ywchen
+Date: 2014年8月21日 14:16:37
+Message:
+1.增加给定结束日期不能大于当前日期的限制条件。
+2.“模块”字段下显示为空，添加moduleoperateMap键值对解决此问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/operatelogmng.html
+
+Revision: 193
+Author: ywchen
+Date: 2014年8月21日 14:13:24
+Message:
+1.增加给定结束日期不能大于当前日期的限制条件。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/bank/js/app/manager/VtaStatusCount.js
+
+Revision: 192
+Author: ywchen
+Date: 2014年8月21日 14:13:14
+Message:
+1.增加给定结束日期不能大于当前日期的限制条件。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/bank/js/app/manager/VtaServiceCount.js
+
+Revision: 190
+Author: tianmu
+Date: 2014年8月20日 10:53:37
+Message:
+1.修改VTA登录逻辑不对问题。会导致后面的人抢占前面的人。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/frontend/UserController.java
+
+Revision: 189
+Author: tianmu
+Date: 2014年8月19日 17:25:36
+Message:
+1.解决报表导出不成功问题。由于easyui版本引起。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/workstatistic.html
+
+Revision: 188
+Author: tianmu
+Date: 2014年8月19日 17:25:04
+Message:
+1.解决报表导出不成功问题。由于easyui版本引起。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/worklogmng.html
+
+Revision: 187
+Author: tianmu
+Date: 2014年8月19日 17:07:25
+Message:
+1.解决报表导出不成功问题。由于easyui版本引起。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/transactionmng.html
+
+Revision: 186
+Author: tianmu
+Date: 2014年8月19日 14:15:56
+Message:
+1.删除无用的删除按钮
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/transactionmng.html
+
+Revision: 185
+Author: tianmu
+Date: 2014年8月19日 11:28:57
+Message:
+1.解决报console.log找不到错误
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/workstatistic.html
+
+Revision: 184
+Author: tianmu
+Date: 2014年8月19日 11:28:46
+Message:
+1.解决报console.log找不到错误
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/transactionmng.html
+
+Revision: 183
+Author: ywchen
+Date: 2014年8月19日 11:26:39
+Message:
+1.增加“清空”操作时起止日期不能为空的限制条件。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/operatelogmng.html
+
+Revision: 182
+Author: ywchen
+Date: 2014年8月19日 11:26:23
+Message:
+1.增加“清空”操作时起止日期不能为空的限制条件。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/loginlogmng.html
+
+Revision: 181
+Author: ywchen
+Date: 2014年8月19日 11:26:12
+Message:
+1.增加“清空”操作时起止日期不能为空的限制条件。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/interactionlogmng.html
+
+Revision: 180
+Author: tianmu
+Date: 2014年8月19日 11:17:13
+Message:
+1.修改菜单话术：交易记录->交易记录管理
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/manage.jsp
+
+Revision: 179
+Author: tianmu
+Date: 2014年8月19日 10:58:31
+Message:
+1.统一修改默认查询日期为从当前开始90天
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/transactionmng.html
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/workstatistic.html
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/worklogmng.html
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/operatelogmng.html
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/loginlogmng.html
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/interactionlogmng.html
+
+Revision: 178
+Author: tianmu
+Date: 2014年8月19日 10:32:08
+Message:
+1.解决工作记录没有IP问题。
+2.解决工作记录不记录问题。
+3.解决工作记录表映射名称不对问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/frontend/UserController.java
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/frontend/TellerStatusController.java
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/entity/WorkLog.hbm.xml
+
+Revision: 177
+Author: tianmu
+Date: 2014年8月19日 9:55:17
+Message:
+1.协助输入按钮恢复显示
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_functions.js
+
+Revision: 176
+Author: tianmu
+Date: 2014年8月19日 9:32:49
+Message:
+1.解决修改密码框显示不对问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_ui.js
+
+Revision: 175
+Author: ywchen
+Date: 2014年8月19日 9:12:56
+Message:
+1.删除“新增”“修改”操作时对参数值的限制。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/sysparammng.html
+
+Revision: 174
+Author: tianmu
+Date: 2014年8月18日 21:22:40
+Message:
+
+----
+Deleted : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/images/Thumbs.db
+
+Revision: 173
+Author: tianmu
+Date: 2014年8月18日 21:22:14
+Message:
+1.解决修改密码框显示不对问题。
+2.更换欢迎界面图片为鄞州银行字样图片。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_ui.js
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_utils.js
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/images/Welcome.png
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/images/Thumbs.db
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/css/form.css
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/css/vta.css
+
+Revision: 172
+Author: ywchen
+Date: 2014年8月18日 20:17:05
+Message:
+1.添加检测前一次非常规退出时，下一次用户拥有前一次用户的权限问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/frontend/UserController.java
+
+Revision: 171
+Author: tianmu
+Date: 2014年8月18日 20:15:25
+Message:
+1.解决身份审核界面不对齐问题。
+2.解决协助输入确认按钮居中问题。
+
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/css/vta.css
+
+Revision: 170
+Author: tianmu
+Date: 2014年8月18日 20:13:56
+Message:
+1.解决协助输入发送不全用户信息问题。发送代码有误。
+2.解决身份审核界面不对齐问题。
+3.解决协助输入确认按钮居中问题。
+4.去掉协助用户输入界面多余元素
+5.去掉多余代码，注释
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_ui.js
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_functions.js
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/js/vta_utils.js
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/index.html
+Added : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/images/point.jpg
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/images/select.png
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/images/select_dis.png
+
+Revision: 169
+Author: ywchen
+Date: 2014年8月18日 18:46:19
+Message:
+1.增加 检测上一次用户名是否存在的代码，解决管理台用户未按常规方式退出，下一次登录的用户拥有前一次用户的权限问题。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/frontend/UserController.java
+
+Revision: 168
+Author: ywchen
+Date: 2014年8月18日 16:53:37
+Message:
+1.前一次修改有误，改回重新提交。
+2.用户管理界面，坐席密码设为只读，禁止修改。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/WebRoot/managepage/usermng.html
+
+Revision: 167
+Author: ywchen
+Date: 2014年8月18日 15:47:30
+Message:
+1.上一次提交的修改有误，改回来重新提交。
+2.loginname改回为username。
+----
+Modified : /trunk/YZBVTA/4.编码/BeebVTA/src/com/zjft/vta/controller/frontend/UserController.java
+
