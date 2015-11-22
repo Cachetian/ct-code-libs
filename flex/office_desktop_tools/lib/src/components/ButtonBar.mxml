@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:model="model.*"
+		 width="400" height="300" >
+	<fx:Script>
+		<![CDATA[
+			import model.ButtonBarDataModel;
+			import model.ButtonDataModel;
+			
+			import spark.components.Button;
+			
+			private var _data:ButtonBarDataModel;
+
+			public function get data():ButtonBarDataModel
+			{
+				return _data;
+			}
+
+			public function set data(value:ButtonBarDataModel):void
+			{
+				_data = value;
+				if(_data)
+				{
+					this.removeAllElements();
+					
+					// 遍历buttonInfo
+					for each (var buttonInfo:ButtonDataModel in data.buttons) 
+					{
+						initButton(buttonInfo);
+					}
+				}
+			}
+			
+			private function initButton(buttonInfo:ButtonDataModel):void
+			{
+				// 创建button
+				var btn:Button = new Button();
+				btn.id = buttonInfo.id;
+				btn.label = buttonInfo.label;
+				// 创建function类
+				var functionClass:Class = getDefinitionByName(buttonInfo.ifunction) as Class;
+				var ifunction:Object=new functionClass();
+				btn.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void{
+					ifunction.call();
+				});
+				this.addElement(btn);
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+		
+	</fx:Declarations>
+	<s:layout>
+		<s:TileLayout />
+	</s:layout>
+</s:Group>

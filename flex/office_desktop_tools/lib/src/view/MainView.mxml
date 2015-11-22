@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" 
+					xmlns:components="components.*"
+					xmlns:model="model.*"
+					width="400" height="300" label="Tools" 
+					creationComplete="process()" >
+	<fx:Script>
+		<![CDATA[
+			import core.logging.DailyRollingFileTarget;
+			import core.utils.FileUtil;
+			
+			import model.ButtonBarDataModel;
+			import model.ButtonDataModel;
+			
+			import mx.logging.Log;
+			import mx.logging.LogEventLevel;
+			import mx.logging.targets.TraceTarget;
+			
+			[Bindable]
+			private var buttonBarDataModel:ButtonBarDataModel;
+			
+			protected function process():void
+			{
+				//开启控制台日志
+				var traceTarget:TraceTarget = new TraceTarget();
+				traceTarget.filters = ["*"];
+				traceTarget.includeDate = true; //输出信息是否包含日期
+				traceTarget.includeTime = true; //输出信息是否包含时间
+				traceTarget.includeLevel = true; //输出信息是否包含等级
+				traceTarget.includeCategory = true; //输出信息是否包含class名
+				traceTarget.level = LogEventLevel.DEBUG; //设定输出的等级
+				Log.addTarget(traceTarget);
+				var fileTarget:DailyRollingFileTarget = new DailyRollingFileTarget();
+				fileTarget.filters = ["*"];
+				fileTarget.includeDate = true; //输出信息是否包含日期
+				fileTarget.includeTime = true; //输出信息是否包含时间
+				fileTarget.includeLevel = true; //输出信息是否包含等级
+				fileTarget.includeCategory = true; //输出信息是否包含class名
+				fileTarget.level = LogEventLevel.DEBUG; //设定输出的等级
+				Log.addTarget(fileTarget);
+				var buttonInfoXML:XML = FileUtil.loadLocalXMLFile("data/ButtonInfo.xml");
+				var buttonXMLList:XMLList = buttonInfoXML.buttonInfo.button;
+				var datamodel:ButtonBarDataModel = new ButtonBarDataModel();
+				for each (var buttonXML:XML in buttonXMLList) 
+				{
+					var buttonDataModel:ButtonDataModel = new ButtonDataModel();
+					buttonDataModel.id = buttonXML.@id;
+					buttonDataModel.label = buttonXML.@label;
+					buttonDataModel.ifunction = buttonXML.@ifunction;
+					datamodel.buttons.push(buttonDataModel);
+				}
+				buttonBarDataModel = datamodel; 
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<components:ButtonBar data="{buttonBarDataModel}"/>
+</s:NavigatorContent>

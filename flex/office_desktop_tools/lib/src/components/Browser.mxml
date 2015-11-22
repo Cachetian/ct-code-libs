@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Window xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   showStatusBar="false" 
+					   width="800" height="600"
+					   creationComplete="WinMain()">
+	<s:layout>
+		<s:VerticalLayout paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10"/>
+	</s:layout>
+	<fx:Script>
+		<![CDATA[
+			public function WinMain():void
+			{
+				html.addEventListener(Event.COMPLETE, html_completeHandler);
+			}
+			
+			protected function html_completeHandler(event:Event):void
+			{
+				html.removeEventListener(Event.COMPLETE, html_completeHandler);
+				html.htmlLoader.window.document.getElementById("userid").value = "tianmu";
+				html.htmlLoader.window.document.getElementById("passwd").value = "Zjpt110810";
+				html.htmlLoader.window.document.form1.logon.click();
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:HGroup width="100%">
+		<s:TextInput id="urlTxtInput" x="10" y="10" width="100%" keyDown="{html.htmlLoader.load(new URLRequest(urlTxtInput.text))}" />
+	</s:HGroup>
+	<mx:HTML id="html" width="100%" height="100%" location="http://www.zijin.com" />
+</s:Window>
