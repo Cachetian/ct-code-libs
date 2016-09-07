@@ -17,5 +17,6 @@
   </dependencies>
   <modules>
   	<module>mapdb</module>
+  	<module>prototypes</module>
   </modules>
 </project>

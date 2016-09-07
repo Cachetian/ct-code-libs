@@ -46,3 +46,7 @@ java/tools/mapdb/.classpath
 *.class
 
 java/tools/mapdb/.project
+
+java/tools/prototypes/.project
+
+java/tools/prototypes/.classpath
