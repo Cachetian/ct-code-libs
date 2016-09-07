@@ -34,3 +34,15 @@ Icon
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
+
+java/tools/.project
+
+*.prefs
+
+java/tools/.classpath
+
+java/tools/mapdb/.classpath
+
+*.class
+
+java/tools/mapdb/.project
