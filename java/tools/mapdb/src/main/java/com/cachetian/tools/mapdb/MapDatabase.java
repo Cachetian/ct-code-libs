@@ -12,7 +12,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapDatabase {
+import com.cachetian.tools.mapdb.api.Mapdb;
+
+public class MapDatabase implements Mapdb {
 
 	private MapDatabase() {
 

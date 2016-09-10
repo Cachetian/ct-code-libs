@@ -1,16 +1,8 @@
 package com.cachetian.tools.mapdb;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+
+import com.cachetian.tools.mapdb.api.MapdbFactory;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -40,12 +32,21 @@ public class MapDatabaseTest extends TestCase {
 		String value = MapDatabase.getInstance().getValue("com.cachetian.tools.mapdb.param1");
 		MapDatabase.getInstance().close();
 		assertEquals("hello", value);
+		
+		String username = MapdbFactory.getInstance().getDB().getValue("com.cachetian.tools.mapdb.username");
+		if (username == null || username.equals("")){
+			MapdbFactory.getInstance().getDB().setValue("com.cachetian.tools.mapdb.username", "cachetian");
+		}
+		assertEquals("cachetian", username);
 	}
 
 	public void testWrite() throws ClassNotFoundException, IOException {
 		MapDatabase.getInstance().open();
 		MapDatabase.getInstance().setValue("com.cachetian.tools.mapdb.param1", "hello");
 		MapDatabase.getInstance().close();
+		assertTrue(true);
+		
+		MapdbFactory.getInstance().getDB().setValue("com.cachetian.tools.mapdb.username", "cachetian");
 		assertTrue(true);
 	}
 }
