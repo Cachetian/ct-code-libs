@@ -1,0 +1,13 @@
+{
+    "desc": "electronic information world should also have life, everything should have a life-cycle just like real world. sleep is system shutdown persisting on file disk, wakeup is running on system",
+    "purpose": "manage object like people, get their status easily, every object report to system automatically",
+    "object_define": {
+        "sleep_time": "the time shutdown",
+        "wakeup_time": "the time running",
+        "report()": "report their status to system",
+        "born_datetime": "",
+        "life": "life time will living in system",
+        "life_spend": "life time spent",
+        "die()": "die, this method will be called automatically"
+    }
+}
