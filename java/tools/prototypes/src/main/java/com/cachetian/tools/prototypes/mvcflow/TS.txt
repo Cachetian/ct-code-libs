@@ -1,0 +1,123 @@
+
+flow node, is a black box.
+
+you can read it's input and outputs metadata.
+
+
+{
+	inputs
+	outputs
+	results(exits, gateways) -- core
+
+}
+
+
+Notes:
+
+unput + action => result
+
+bootstrap steps:
+
+1. unzip
+
+2. read def.json in the root
+
+physical properties:
+  1. local storage guid, differ from each disk storage, but unique within storage, autogened, used for debug and persist.
+  2. global unique name, unique within registration server, named by man, readable.
+  3. remark or description, with 255 or no limit string.
+  4. dependecies, in case missing or no dependencies at all
+
+3. load, execute the node and get the result
+
+4. look for the next node.
+
+
+core model:
+
+v1:
+the most simple way, use array index as key.
+node:{
+	id:"node-id",
+	reuslts:["result-name"]
+}
+
+flow:{
+	entry:"node-id",
+	mappings:["mapping-node-id"]
+}
+
+v2:
+has a template and instance, oo based.
+
+node: {
+	clazz:"class-name"
+	results:["result"]
+}
+
+flow: {
+	entry: {
+		clazz: "node-class"
+	},
+	mappings: ["mapping"],
+	results:["result"],
+	ctx-nodes:{}
+}
+
+e.g.
+nodes:[
+{
+	clazz:"node-classs1",
+	results:["ok", "error"]
+},
+{
+	clazz:"node-classs2",
+	results:["complete"]
+}]
+flow: {
+	entry: {
+		clazz:"node-class1"
+		mapping:[
+			{"ok":"0"},
+			{"error":"1"}
+		]
+	},
+	nodes:[
+		{
+			clazz:"node-class2",
+			mapping:[{"complete":"result-0"}]
+		},
+		{
+			clazz:"node-class2",
+			mapping:[{"complete":"result-1"}]
+		}
+	]
+	results:["flow-ok", "flow-error"]
+}
+flow can use inner nodes, or outer(global) nodes.
+when it comes to how to package a flow?
+
+(inner-nodes, flow-def) as a whole. 
+
+how to use the flow? just like a node. flow itself just like a node class.d
+e.g.
+nodes:[
+	{results:["r1","r2"]}，
+	flow1
+]
+
+flow:{
+	entry:{
+		"clazz":"flow1",
+		mapping:[
+			"flow-ok":"result-0",
+			"flow-erorr":"result-0"
+		]
+	}
+	results:["flow2-end"]
+}
+
+maping:{}
+
+each node has a static def. and in flow, each node will have a contexted def.
+mapping is from ctxed node (instance) to a ctxed node.
