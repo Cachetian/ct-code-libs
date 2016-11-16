@@ -2,10 +2,54 @@
 
 'use strict';
 
+//
+// Code Documentation
+//
+// description:
+// This is an all-in-one code sample.
+//
+// Organization:
+// 1. Use cases
+// 2. Class defination
+// 3. Singleton objects.
+// 4. Unit Test cases.
+//
+// How to understand version numbers, e.g. V1, V2
+// Version goes with the code implemation progress, according to a time sequence.
+//
+
+//
+// Use Cases
+//
+
+// Summary:
+// I want make a tool, a light weight tool, that helps to make flow easier.
+// especially for MVC based apps.
+
+// Story 1:
+// Flow Maker, a SDK tool, that make flow model
+//             an Flow Maker can create an new Flow Model. and enrich the Model
+//             step by step.
+//             The making progress, can be like:
+//             1. create a emtpy skeleton.
+//             2. add nodes or flow as a node to its repo
+//             3. link mappings, drag from one exit to one node, or parent exit.
+//
+// Flow Model, describe a flow.
+// Node Model, represent for a logical or physical MVC node.
+//             logical node, can be seen as linkage entity to a physical one.
+// Flow Engine, runs an flow model.
+// Also, I want use pom to manage the MVC world. every node or flow can be a
+// project artifcat.
+
 console.log("mvcflow sample");
 
 // global domain of com.cachetian.mvcflow domain
 var global = {};
+
+//
+// Class defination section
+//
 
 Object.prototype.clone = function() {
     var copy = (this instanceof Array) ? [] : {};
@@ -15,6 +59,41 @@ Object.prototype.clone = function() {
     }
     return copy;
 };
+
+//
+// Flow class, indicate an created flow instance.
+//
+function Flow () {
+    this.data = {};
+}
+
+Flow.prototype.getNode = function(sName) {
+    return new Node();
+};
+Flow.prototype.getNodeByIndex = function(idx) {
+    return new Node();
+};
+Flow.prototype.getNodeByName = function(sName) {
+    return new Node();
+};
+Flow.prototype.addNode = function(oData) {
+
+};
+Flow.prototype.addMapping = function(oNode, sTarget) {
+
+};
+
+function Node () {
+    this.data = {};
+}
+
+Node.prototype.addMapping = function(oNode, sTarget) {
+
+};
+
+//
+// Singleton objects
+//
 
 global.NodeFacotryV1 = function() {
     var NodeDef = {
@@ -173,35 +252,6 @@ global.NodeRepo = function() {
         }
     }
 }();
-
-// Flow class, indicate an created flow instance.
-function Flow () {
-    this.data = {};
-}
-
-Flow.prototype.getNode = function(sName) {
-    return new Node();
-};
-Flow.prototype.getNodeByIndex = function(idx) {
-    return new Node();
-};
-Flow.prototype.getNodeByName = function(sName) {
-    return new Node();
-};
-Flow.prototype.addNode = function(oData) {
-
-};
-Flow.prototype.addMapping = function(oNode, sTarget) {
-
-};
-
-function Node () {
-    this.data = {};
-}
-
-Node.prototype.addMapping = function(oNode, sTarget) {
-
-};
 
 global.FlowMaker = function() {
     var globalRef = null;
