@@ -2,6 +2,11 @@
 
 'use strict';
 
+/** Draft of draft
+ As to Flow.addMapping, a Mapping object should be drag from a Node exit to a
+ Node or stage exit.
+
+*/
 //
 // Code Documentation
 //
@@ -35,10 +40,24 @@
 //             2. add nodes or flow as a node to its repo
 //             3. link mappings, drag from one exit to one node, or parent exit.
 //
-// Flow Model, describe a flow.
+// Flow Model, describe a flow. Flow Model consist of Flow Data and Flow
+//             functions. Flow Data Core is in JSON format.
+//
 // Node Model, represent for a logical or physical MVC node.
 //             logical node, can be seen as linkage entity to a physical one.
+//             The same as Flow Model, Node Model consist of Node Data and Node
+//             functions. Node Model's major desgin purpose is to represent for
+//             a Node type, like a class. Node Model can be added to Flow Model
+//             Repo Section, and Node instance can be added to stage.
+//
+// Node instance, an object create new from Node Model, which can be used in
+//             Stage of Flow Model
+//
 // Flow Engine, runs an flow model.
+//             Flow Engine, can run a Flow Model,
+//
+// App,        MVC Flow App, which can run with Flow Engine.
+//
 // Also, I want use pom to manage the MVC world. every node or flow can be a
 // project artifcat.
 
