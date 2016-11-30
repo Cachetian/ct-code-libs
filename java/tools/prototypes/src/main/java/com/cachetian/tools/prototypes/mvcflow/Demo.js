@@ -110,6 +110,18 @@ Node.prototype.addMapping = function(oNode, sTarget) {
 
 };
 
+function Target () {
+    this._info = null;
+    this._ID = "";
+    this._scope = null;
+}
+
+Target.prototype.getID = function() {
+  return this._ID;
+};
+
+
+
 //
 // Singleton objects
 //
@@ -446,6 +458,8 @@ global.FlowEngine = function() {
     };
 }();
 
+
+
 // mock data
 
 // node defs
@@ -644,7 +658,7 @@ var flowData0 = {
 // global, means any resource, nodes, functions, objects, mvcflow
 
 // test case
-global.App = {
+global.AppV2 = {
     run: function(global) {
         console.log("global.App.run() - start");
         // inti repo
@@ -695,9 +709,7 @@ global.App = {
         global.FlowEngine.runFlow("exit");
         global.FlowEngine.print();
     }
-}
-
-global.App.run(global);
+};
 
 var flowData1 = {
     "nodes": [{
@@ -741,3 +753,18 @@ var flowData2 = {
     "remark": "sample flow",
     "results": ["flowEnd"]
 };
+
+//
+// V3 OO based mvcflow
+//
+
+global.App = {
+    run: function(global) {
+        console.log("V3 mvcflow start");
+
+        // start from create Node Model
+        
+
+    }
+};
+global.App.run(global);
