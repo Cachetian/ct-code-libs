@@ -82,7 +82,7 @@ Object.prototype.clone = function() {
 //
 // Flow class, indicate an created flow instance.
 //
-function Flow () {
+function Flow() {
     this.data = {};
 }
 
@@ -102,25 +102,13 @@ Flow.prototype.addMapping = function(oNode, sTarget) {
 
 };
 
-function Node () {
+function Node() {
     this.data = {};
 }
 
 Node.prototype.addMapping = function(oNode, sTarget) {
 
 };
-
-function Target () {
-    this._info = null;
-    this._ID = "";
-    this._scope = null;
-}
-
-Target.prototype.getID = function() {
-  return this._ID;
-};
-
-
 
 //
 // Singleton objects
@@ -310,12 +298,12 @@ global.FlowMaker = function() {
             flowData.entry = clazz;
             flowData.remark = remark;
             flowData.results = results;
-						return new Flow();
+            return new Flow();
         },
 
         // add result to node
-				// since we cannot gurantee any step update result will be closed well
-				// runnable flow. so that this input should be extened.
+        // since we cannot gurantee any step update result will be closed well
+        // runnable flow. so that this input should be extened.
         addNode: function(oFlow, oNode) {
 
         },
@@ -667,13 +655,13 @@ global.AppV2 = {
         // make flow
         global.FlowMaker.setDomain(global);
         var oFlow = global.FlowMaker.createFlow("com.cachetian.flow.sample.nodes.Guest", "sample flow", ["flowend"]);
-				oFlow.addNode("guest", "com.cachetian.flow.sample.nodes.Guest");
-				oFlow.addMapping("exit", 0);
-				var oNode = oFlow.getNode("guest");// default by name
-				var oNodeByIndex = oFlow.getNodeByIndex("0");
-				var oNodeByName = oFlow.getNodeByName("0");// get a inner node by path, by path you can access any node from static view
-				oNode.addMapping("exit");//add a mapping inside node scope
-				oFlow.addMapping("entry", "node://0");
+        oFlow.addNode("guest", "com.cachetian.flow.sample.nodes.Guest");
+        oFlow.addMapping("exit", 0);
+        var oNode = oFlow.getNode("guest"); // default by name
+        var oNodeByIndex = oFlow.getNodeByIndex("0");
+        var oNodeByName = oFlow.getNodeByName("0"); // get a inner node by path, by path you can access any node from static view
+        oNode.addMapping("exit"); //add a mapping inside node scope
+        oFlow.addMapping("entry", "node://0");
 
         //global.FlowMaker.addNode("logon", "com.cachetian.flow.sample.nodes.Logon");
         //global.FlowMaker.addMapping("exit", 0);
@@ -758,13 +746,139 @@ var flowData2 = {
 // V3 OO based mvcflow
 //
 
+
+function Info(oData) {
+    this._code = "";
+    this._name = "";
+    this._remark = "";
+    if (oData && oData instanceof Object) {
+        if (oData.code) {
+            this._code = oData.code;
+        }
+        if (oData.name) {
+            this._name = oData.name;
+        }
+        if (oData.remark) {
+            this._remark = oData.remark;
+        }
+    }
+};
+Info.prototype.getCode = function() {
+    return this._code;
+};
+Info.prototype.setCode = function(sCode) {
+    this._code = sCode;
+}
+Info.prototype.getName = function() {
+    return this._name;
+}
+Info.prototype.setName = function(sName) {
+    this._name = sName
+}
+Info.prototype.getRemark = function() {
+    return this._remark;
+}
+Info.prototype.setRemark = function(sRemark) {
+    this._remark = sRemark;
+}
+
+function Target(oData) {
+    this._Id;
+    this._info = new Info();
+    this._scope;
+}
+
+Target.prototype.getId = function() {
+    return this._Id;
+}
+Target.prototype.setId = function(sId) {
+    this._Id = sId;
+}
+Target.prototype.getInfo = function() {
+    return this._info;
+}
+Target.prototype.setInfo = function(oInfo) {
+    this._info = oInfo;
+}
+Target.prototype.getScope = function() {
+    return this._info;
+}
+Target.prototype.setScope = function(oScope) {
+    this._scope = oScope;
+}
+
+function Scope() {
+    this._targets = new Object();
+}
+Scope.prototype.getTarget = function(sId) {
+    return this._targets[sId];
+}
+Scope.prototype.registerTarget = function(oTarget) {
+    oTarget.setScope(this);
+    this._targets[oTarget.getId()] = oTarget;
+}
+Scope.prototype.getAllTargetIds = function() {
+  var aProps = [];
+  for (var variable in this._targets) {
+    if (this._targets.hasOwnProperty(variable)) {
+      aProps.push(variable);
+    }
+  }
+  return aProps;
+    //return this._targets.keys();
+}
+
+var idSequenceNumber = 0;
+var randomSequenceNumber = 0;
+var uuid = require('node-uuid');
+function generateTarget() {
+    var seq = idSequenceNumber++;
+    var oTarget = new Target();
+    oTarget.setId(uuid.v1());
+    oTarget.setInfo(generateInfo());
+    return oTarget;
+}
+
+function generateInfo() {
+    var seq = randomSequenceNumber++;
+    var oInfo = new Info();
+    oInfo.setCode("code" + seq);
+    oInfo.setName("name" + seq);
+    oInfo.setRemark("This is info of seq" + seq);
+    return oInfo;
+}
 global.App = {
     run: function(global) {
         console.log("V3 mvcflow start");
 
         // start from create Node Model
-        
+        var oTarget = new Target();
+        oTarget.setId("001");
+        oTarget.setInfo(new Info());
+        oTarget.getInfo().setCode("c001");
+        oTarget.getInfo().setName("n001");
+        oTarget.getInfo().setRemark("this is target");
+        console.log("target.id is: " + oTarget.getId());
+        console.log("target.info.remark is: " + oTarget.getInfo().getRemark());
 
+        var oScope = new Scope();
+        oScope.registerTarget(oTarget);
+        var oScopeTarget = oScope.getTarget("001");
+        console.log("scoped target.id is: " + oScopeTarget.getId());
+        console.log("scoped target.info.remark is: " + oScopeTarget.getInfo().getRemark());
+        oScope.getAllTargetIds();
+        var oGenedInfo = generateInfo();
+        console.log("gened info.remak is: " + oGenedInfo.getRemark());
+        var oGenedTarget = generateTarget();
+        console.log("gened taget.info.remak is: " + oGenedTarget.getInfo().getRemark());
+        for (var i = 0; i < 10; i++) {
+            var oGenedItemTaget = generateTarget();
+            console.log("gened item["+i+"] taget.info.remak is: " + oGenedItemTaget.getInfo().getRemark());
+            oScope.registerTarget(oGenedItemTaget);
+        }
+        var aProps = oScope.getAllTargetIds()
+        console.log("scope all tIds is: "+aProps);
+        console.log("scoped target.info.name is: " + oScope.getTarget(aProps[0]).getInfo().getName());
     }
 };
 global.App.run(global);
