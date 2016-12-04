@@ -60,9 +60,13 @@
 //
 // Also, I want use pom to manage the MVC world. every node or flow can be a
 // project artifcat.
-
-console.log("mvcflow sample");
-
+console.log("################################################################");
+console.log("# ");
+console.log("# This is mvc-flow Sample");
+console.log("# ");
+console.log("# Welcome!");
+console.log("# ");
+console.log("################################################################");
 // global domain of com.cachetian.mvcflow domain
 var global = {};
 
@@ -71,98 +75,94 @@ var global = {};
 //
 
 Object.prototype.clone = function() {
-    var copy = (this instanceof Array) ? [] : {};
-    for (var attr in this) {
-        if (!this.hasOwnProperty(attr)) continue;
-        copy[attr] = (typeof this == "object") ? this[attr].clone() : this[attr];
-    }
-    return copy;
+  var copy = (this instanceof Array) ? [] : {};
+  for (var attr in this) {
+    if (!this.hasOwnProperty(attr)) continue;
+    copy[attr] = (typeof this == "object") ? this[attr].clone() : this[attr];
+  }
+  return copy;
 };
 
-//
-// Flow class, indicate an created flow instance.
-//
-function Flow() {
+function v1() {
+  function Node() {
     this.data = {};
-}
-
-Flow.prototype.getNode = function(sName) {
-    return new Node();
-};
-Flow.prototype.getNodeByIndex = function(idx) {
-    return new Node();
-};
-Flow.prototype.getNodeByName = function(sName) {
-    return new Node();
-};
-Flow.prototype.addNode = function(oData) {
-
-};
-Flow.prototype.addMapping = function(oNode, sTarget) {
-
-};
-
-function Node() {
+  }
+  //
+  // Flow class, indicate an created flow instance.
+  //
+  function Flow() {
     this.data = {};
-}
+  }
 
-Node.prototype.addMapping = function(oNode, sTarget) {
+  Flow.prototype.getNode = function(sName) {
+    return new Node();
+  };
+  Flow.prototype.getNodeByIndex = function(idx) {
+    return new Node();
+  };
+  Flow.prototype.getNodeByName = function(sName) {
+    return new Node();
+  };
+  Flow.prototype.addNode = function(oData) {
 
-};
+  };
+  Flow.prototype.addMapping = function(oNode, sTarget) {
 
-//
-// Singleton objects
-//
+  };
 
-global.NodeFacotryV1 = function() {
+  //
+  // Singleton objects
+  //
+
+  global.NodeFacotryV1 = function() {
     var NodeDef = {
-        "clazz": "",
-        "remark": "",
-        "results": []
+      "clazz": "",
+      "remark": "",
+      "results": []
     }
     return {
-        createNode: function(clazz, sRemark, aResults) {
-            var instance = NodeDef.clone();
-            if (clazz instanceof String) {
-                instance.clazz = clazz;
-                instance.remark = sRemark;
-                instance.results = aResults;
-            } else if (clazz instanceof Object) {
-                instance.clazz = clazz.clazz;
-                instance.remark = clazz.remark;
-                instance.results = clazz.results;
-            }
-            return instance;
+      createNode: function(clazz, sRemark, aResults) {
+        var instance = NodeDef.clone();
+        if (clazz instanceof String) {
+          instance.clazz = clazz;
+          instance.remark = sRemark;
+          instance.results = aResults;
+        } else if (clazz instanceof Object) {
+          instance.clazz = clazz.clazz;
+          instance.remark = clazz.remark;
+          instance.results = clazz.results;
         }
+        return instance;
+      }
     };
-}();
+  }();
 
 
-global.NodeFacotry = function() {
+  global.NodeFacotry = function() {
     var NodeDef = {
-        "clazz": "",
-        "remark": "",
-        "results": []
+      "clazz": "",
+      "remark": "",
+      "results": []
     }
     return {
-        createNode: function(clazz, sRemark, aResults) {
-            var instance = NodeDef.clone();
-            if (clazz instanceof String) {
-                instance.clazz = clazz;
-                instance.remark = sRemark;
-                instance.results = aResults;
-            } else if (clazz instanceof Object) {
+      createNode: function(clazz, sRemark, aResults) {
+        var instance = NodeDef.clone();
+        if (clazz instanceof String) {
+          instance.clazz = clazz;
+          instance.remark = sRemark;
+          instance.results = aResults;
+        } else if (clazz instanceof Object) {
 
-                instance.clazz = clazz.clazz;
-                instance.remark = clazz.remark;
-                instance.results = clazz.results;
-            }
-            return instance;
+          instance.clazz = clazz.clazz;
+          instance.remark = clazz.remark;
+          instance.results = clazz.results;
         }
+        return instance;
+      }
     };
-}();
+  }();
 
-global.NodeRepoV1 = function() {
+  global.NodeRepoV1 = function() {
 
     /**
      * Name index map, key is node clazz, value is internal index in nodeArray.
@@ -177,35 +177,35 @@ global.NodeRepoV1 = function() {
     var nodeArray = [];
 
     return {
-        getNode: function(sName) {
-            if (sName) {
-                return nodeArray[nameIndexMap[sName]];
-            }
-        },
-
-        /**
-         * Add node to repo
-         * @param {com.cachetian.mvcflow.NodeDef} oNode node template defination type
-         */
-        addNode: function(oNode) {
-            if (!oNode) {
-                throw new Error("AddNodeEmptyError");
-            }
-            // register name in nameIndexMap
-            nameIndexMap[oNode.clazz] = nodeArray.length;
-
-            // add to nodeArray
-            nodeArray.push({
-                "clazz": oNode.clazz,
-                "remark": oNode.remark,
-                "results": oNode.results
-            });
-            return this;
+      getNode: function(sName) {
+        if (sName) {
+          return nodeArray[nameIndexMap[sName]];
         }
-    }
-}();
+      },
 
-global.NodeRepo = function() {
+      /**
+       * Add node to repo
+       * @param {com.cachetian.mvcflow.NodeDef} oNode node template defination type
+       */
+      addNode: function(oNode) {
+        if (!oNode) {
+          throw new Error("AddNodeEmptyError");
+        }
+        // register name in nameIndexMap
+        nameIndexMap[oNode.clazz] = nodeArray.length;
+
+        // add to nodeArray
+        nodeArray.push({
+          "clazz": oNode.clazz,
+          "remark": oNode.remark,
+          "results": oNode.results
+        });
+        return this;
+      }
+    }
+  }();
+
+  global.NodeRepo = function() {
 
     /**
      * Name index map, key is node clazz, value is internal index in nodeArray.
@@ -214,8 +214,8 @@ global.NodeRepo = function() {
     var nameIndexMap = {};
 
     var nameIndexMapExample = {
-        "node://xxx.xxx.xxx.XxxXxx": 0,
-        "flow://xxx.xxx.xxx.XxxXxx": 0,
+      "node://xxx.xxx.xxx.XxxXxx": 0,
+      "flow://xxx.xxx.xxx.XxxXxx": 0,
     };
 
     /**
@@ -224,98 +224,98 @@ global.NodeRepo = function() {
      */
     var nodeArray = [];
     var nodeArrayExample = [{
-        "clazz": "node://xxx.xxx.xxx.XxxXxx"
+      "clazz": "node://xxx.xxx.xxx.XxxXxx"
     }, {
-        "clazz": "flow://xxx.xxx.xxx.XxxXxx"
+      "clazz": "flow://xxx.xxx.xxx.XxxXxx"
     }];
 
     return {
-        getNode: function(sName) {
-            if (sName) {
-                return nodeArray[nameIndexMap[sName]];
-            }
-        },
-
-        /**
-         * Add node to repo
-         * @param {com.cachetian.mvcflow.NodeDef} oNode node define, clazz is "node://xxx", "flow://xxx" or "xxx" (indicate node)
-         */
-        addNode: function(oNode) {
-            if (!oNode) {
-                throw new Error("AddNodeEmptyError");
-            }
-            if (oNode.clazz === undefined || oNode.clazz === null || oNode.clazz === "") {
-                throw new Error("AddNodeClazzEmptyError");
-            }
-            if (oNode.results === undefined || oNode.results === null || !(oNode.results instanceof Array)) {
-                throw new Error("AddNodeResultsFormatError");
-            }
-
-            if (oNode.clazz.indexOf("node://") === 0) {
-
-            } else if (oNode.clazz.indexOf("flow://") === 0) {
-                // validate flow structure
-
-                // validate all depending node are in repo
-
-            } else {
-                oNode.clazz = "node://" + oNode.clazz
-            }
-
-            // register name in nameIndexMap
-            nameIndexMap[oNode.clazz] = nodeArray.length;
-
-            // add to nodeArray
-            nodeArray.push(oNode);
-            return this;
+      getNode: function(sName) {
+        if (sName) {
+          return nodeArray[nameIndexMap[sName]];
         }
-    }
-}();
+      },
 
-global.FlowMaker = function() {
+      /**
+       * Add node to repo
+       * @param {com.cachetian.mvcflow.NodeDef} oNode node define, clazz is "node://xxx", "flow://xxx" or "xxx" (indicate node)
+       */
+      addNode: function(oNode) {
+        if (!oNode) {
+          throw new Error("AddNodeEmptyError");
+        }
+        if (oNode.clazz === undefined || oNode.clazz === null || oNode.clazz === "") {
+          throw new Error("AddNodeClazzEmptyError");
+        }
+        if (oNode.results === undefined || oNode.results === null || !(oNode.results instanceof Array)) {
+          throw new Error("AddNodeResultsFormatError");
+        }
+
+        if (oNode.clazz.indexOf("node://") === 0) {
+
+        } else if (oNode.clazz.indexOf("flow://") === 0) {
+          // validate flow structure
+
+          // validate all depending node are in repo
+
+        } else {
+          oNode.clazz = "node://" + oNode.clazz
+        }
+
+        // register name in nameIndexMap
+        nameIndexMap[oNode.clazz] = nodeArray.length;
+
+        // add to nodeArray
+        nodeArray.push(oNode);
+        return this;
+      }
+    }
+  }();
+
+  global.FlowMaker = function() {
     var globalRef = null;
     var flowDef = {
-        "nodes": {},
-        "entry": "",
-        "remark": "",
-        "results": []
+      "nodes": {},
+      "entry": "",
+      "remark": "",
+      "results": []
     };
     var flowData = null;
     return {
-        setDomain: function(oDomain) {
-            globalRef = oDomain;
-            return this;
-        },
+      setDomain: function(oDomain) {
+        globalRef = oDomain;
+        return this;
+      },
 
-        /**
-         * Create flow
-         * @param  {String} clazz   Entry node class
-         * @param  {String} remark  flow remark
-         * @param  {Array} 	results results
-         */
-        createFlow: function(clazz, remark, results) {
-            flowData = flowDef.clone();
-            flowData.entry = clazz;
-            flowData.remark = remark;
-            flowData.results = results;
-            return new Flow();
-        },
+      /**
+       * Create flow
+       * @param  {String} clazz   Entry node class
+       * @param  {String} remark  flow remark
+       * @param  {Array} 	results results
+       */
+      createFlow: function(clazz, remark, results) {
+        flowData = flowDef.clone();
+        flowData.entry = clazz;
+        flowData.remark = remark;
+        flowData.results = results;
+        return new Flow();
+      },
 
-        // add result to node
-        // since we cannot gurantee any step update result will be closed well
-        // runnable flow. so that this input should be extened.
-        addNode: function(oFlow, oNode) {
+      // add result to node
+      // since we cannot gurantee any step update result will be closed well
+      // runnable flow. so that this input should be extened.
+      addNode: function(oFlow, oNode) {
 
-        },
+      },
 
-        // add node result to flow result
-        addMapping: function(oFlow, sFrom, sTo) {
+      // add node result to flow result
+      addMapping: function(oFlow, sFrom, sTo) {
 
-        }
+      }
     };
-}();
+  }();
 
-global.FlowEngineV1 = function() {
+  global.FlowEngineV1 = function() {
     var flowData = null;
 
     var iCurrentNodeIndex = -1;
@@ -323,301 +323,301 @@ global.FlowEngineV1 = function() {
     var bFlowEnd = false;
 
     function getIndex(sResult) {
-        var index = 0;
-        if (sResult.indexOf("node") === 0) {
-            index = sResult.substr(5);
-        } else if (sResult.indexOf("result") === 0) {
-            index = sResult.substr(7);
-            bFlowEnd = true;
-        }
-        return index;
+      var index = 0;
+      if (sResult.indexOf("node") === 0) {
+        index = sResult.substr(5);
+      } else if (sResult.indexOf("result") === 0) {
+        index = sResult.substr(7);
+        bFlowEnd = true;
+      }
+      return index;
     }
 
     return {
 
-        setFlowData: function(oFlowData) {
-            iCurrentNodeIndex = -1;
-            bFlowEnd = false;
-            flowData = oFlowData;
-        },
+      setFlowData: function(oFlowData) {
+        iCurrentNodeIndex = -1;
+        bFlowEnd = false;
+        flowData = oFlowData;
+      },
 
-        startFlow: function() {
-            try {
-                if (flowData == null) {
-                    throw new Error("StartFlowDataEmptyError");
-                }
-                if (flowData.entry === undefined || flowData.entry === null || flowData.entry === "") {
-                    throw new Error("StartFlowEntryEmptyError");
-                }
-                var sResult = flowData.entry;
-                iCurrentNodeIndex = getIndex(sResult);
-            } catch (e) {
-                throw new Error("startFlow error for errorCode, " + e.message);
-            }
-        },
-
-        runFlow: function(sResult) {
-            var mMappings = flowData.nodes[iCurrentNodeIndex].mappings;
-            var sResult = mMappings[sResult];
-            iCurrentNodeIndex = getIndex(sResult);
-        },
-
-        print: function() {
-            if (!bFlowEnd) {
-                if (iCurrentNodeIndex === -1) {
-                    console.log(flowData.remark);
-                } else {
-                    console.log(flowData.nodes[iCurrentNodeIndex].remark);
-                }
-            } else {
-                console.log(flowData.results[iCurrentNodeIndex]);
-            }
-
+      startFlow: function() {
+        try {
+          if (flowData == null) {
+            throw new Error("StartFlowDataEmptyError");
+          }
+          if (flowData.entry === undefined || flowData.entry === null || flowData.entry === "") {
+            throw new Error("StartFlowEntryEmptyError");
+          }
+          var sResult = flowData.entry;
+          iCurrentNodeIndex = getIndex(sResult);
+        } catch (e) {
+          throw new Error("startFlow error for errorCode, " + e.message);
         }
-    };
-}();
+      },
 
-global.FlowEngine = function() {
+      runFlow: function(sResult) {
+        var mMappings = flowData.nodes[iCurrentNodeIndex].mappings;
+        var sResult = mMappings[sResult];
+        iCurrentNodeIndex = getIndex(sResult);
+      },
+
+      print: function() {
+        if (!bFlowEnd) {
+          if (iCurrentNodeIndex === -1) {
+            console.log(flowData.remark);
+          } else {
+            console.log(flowData.nodes[iCurrentNodeIndex].remark);
+          }
+        } else {
+          console.log(flowData.results[iCurrentNodeIndex]);
+        }
+
+      }
+    };
+  }();
+
+  global.FlowEngine = function() {
     var domain = null;
     var flowData = null;
     var iCurrentNodeIndex = -1;
     var bFlowEnd = false;
 
     function getIndex(sResult) {
-        var index = 0;
-        if (sResult.indexOf("node") === 0) {
-            index = sResult.substr(5);
-        } else if (sResult.indexOf("result") === 0) {
-            index = sResult.substr(7);
-            bFlowEnd = true;
-        }
-        return index;
+      var index = 0;
+      if (sResult.indexOf("node") === 0) {
+        index = sResult.substr(5);
+      } else if (sResult.indexOf("result") === 0) {
+        index = sResult.substr(7);
+        bFlowEnd = true;
+      }
+      return index;
     }
 
     return {
-        setDomain: function(oDomain) {
-            domain = oDomain;
-            return this;
-        },
+      setDomain: function(oDomain) {
+        domain = oDomain;
+        return this;
+      },
 
-        setFlowData: function(oFlowData) {
-            iCurrentNodeIndex = -1;
-            bFlowEnd = false;
-            flowData = oFlowData;
-        },
+      setFlowData: function(oFlowData) {
+        iCurrentNodeIndex = -1;
+        bFlowEnd = false;
+        flowData = oFlowData;
+      },
 
-        startFlow: function() {
-            try {
-                if (flowData == null) {
-                    throw new Error("StartFlowDataEmptyError");
-                }
-                if (flowData.entry === undefined || flowData.entry === null || flowData.entry === "") {
-                    throw new Error("StartFlowEntryEmptyError");
-                }
-                var sResultValue = flowData.entry;
-                iCurrentNodeIndex = getIndex(sResultValue);
-            } catch (e) {
-                throw new Error("startFlow error for errorCode, " + e.message);
-            }
-        },
-
-        runFlow: function(sChosenResult) {
-            var oNodeInstance = flowData.nodes[iCurrentNodeIndex];
-            var aMappings = flowData.nodes[iCurrentNodeIndex].mappings;
-            // get result index in repo
-            var oNodeDefine = global.NodeRepo.getNode(oNodeInstance.clazz);
-            var iChosenIndex = oNodeDefine.results.indexOf(sChosenResult);
-            var sResultValue = aMappings[iChosenIndex];
-            iCurrentNodeIndex = getIndex(sResultValue);
-        },
-
-        print: function() {
-            if (!bFlowEnd) {
-                if (iCurrentNodeIndex === -1) {
-                    console.log(flowData.remark);
-                } else {
-                    console.log(flowData.nodes[iCurrentNodeIndex].remark);
-                }
-            } else {
-                console.log(flowData.results[iCurrentNodeIndex]);
-            }
-
+      startFlow: function() {
+        try {
+          if (flowData == null) {
+            throw new Error("StartFlowDataEmptyError");
+          }
+          if (flowData.entry === undefined || flowData.entry === null || flowData.entry === "") {
+            throw new Error("StartFlowEntryEmptyError");
+          }
+          var sResultValue = flowData.entry;
+          iCurrentNodeIndex = getIndex(sResultValue);
+        } catch (e) {
+          throw new Error("startFlow error for errorCode, " + e.message);
         }
+      },
+
+      runFlow: function(sChosenResult) {
+        var oNodeInstance = flowData.nodes[iCurrentNodeIndex];
+        var aMappings = flowData.nodes[iCurrentNodeIndex].mappings;
+        // get result index in repo
+        var oNodeDefine = global.NodeRepo.getNode(oNodeInstance.clazz);
+        var iChosenIndex = oNodeDefine.results.indexOf(sChosenResult);
+        var sResultValue = aMappings[iChosenIndex];
+        iCurrentNodeIndex = getIndex(sResultValue);
+      },
+
+      print: function() {
+        if (!bFlowEnd) {
+          if (iCurrentNodeIndex === -1) {
+            console.log(flowData.remark);
+          } else {
+            console.log(flowData.nodes[iCurrentNodeIndex].remark);
+          }
+        } else {
+          console.log(flowData.results[iCurrentNodeIndex]);
+        }
+
+      }
     };
-}();
+  }();
 
 
 
-// mock data
+  // mock data
 
-// node defs
-var guestNode = {
+  // node defs
+  var guestNode = {
     "clazz": "com.cachetian.flow.sample.nodes.Guest",
     "remark": "This is Guest node",
     "results": ["logon", "exit"]
-};
+  };
 
-var logonNode = {
+  var logonNode = {
     "clazz": "com.cachetian.flow.sample.nodes.Logon",
     "remark": "This is Logon node",
     "results": ["success", "error"]
-};
+  };
 
-var homeNode = {
+  var homeNode = {
     "clazz": "com.cachetian.flow.sample.nodes.Home",
     "remark": "This is Home node",
     "results": ["logout", "business"]
-};
+  };
 
-var businessNode = {
+  var businessNode = {
     "clazz": "com.cachetian.flow.sample.nodes.Business",
     "remark": "This is Business node",
     "results": ["complete"]
-};
+  };
 
-var flowV1 = {
+  var flowV1 = {
     "nodes": [{
-        "remark": "Guest Node 1",
-        "mappings": {
-            "logon": "node-1",
-            "exit": "result-0"
-        }
+      "remark": "Guest Node 1",
+      "mappings": {
+        "logon": "node-1",
+        "exit": "result-0"
+      }
     }, {
-        "remark": "Logon Node 2",
-        "mappings": {
-            "success": "node-2",
-            "error": "node-0"
-        }
+      "remark": "Logon Node 2",
+      "mappings": {
+        "success": "node-2",
+        "error": "node-0"
+      }
     }, {
-        "remark": "Home Node 3",
-        "mappings": {
-            "logout": "node-0",
-            "business": "node-3"
-        }
+      "remark": "Home Node 3",
+      "mappings": {
+        "logout": "node-0",
+        "business": "node-3"
+      }
     }, {
-        "remark": "Business Node 4",
-        "mappings": {
-            "complete": "node-2"
-        }
+      "remark": "Business Node 4",
+      "mappings": {
+        "complete": "node-2"
+      }
     }],
     "entry": "node-0",
     "remark": "sample flow",
     "results": ["flowEnd"]
-};
+  };
 
-global.AppV1 = {
+  global.AppV1 = {
     run: function(global) {
-        console.log("global.AppV1.run() - start");
-        // inti repo
-        global.NodeRepoV1.addNode(guestNode).addNode(logonNode).addNode(homeNode).addNode(businessNode);
+      console.log("global.AppV1.run() - start");
+      // inti repo
+      global.NodeRepoV1.addNode(guestNode).addNode(logonNode).addNode(homeNode).addNode(businessNode);
 
-        // make flow
-        global.FlowMaker.setDomain(global);
-        global.FlowMaker.createFlow("com.cachetian.flow.sample.nodes.Guest", "sample flow", ["flowend"]);
-        global.FlowMaker.addNode("logon", "com.cachetian.flow.sample.nodes.Logon");
-        global.FlowMaker.addMapping("exit", 0);
+      // make flow
+      global.FlowMaker.setDomain(global);
+      global.FlowMaker.createFlow("com.cachetian.flow.sample.nodes.Guest", "sample flow", ["flowend"]);
+      global.FlowMaker.addNode("logon", "com.cachetian.flow.sample.nodes.Logon");
+      global.FlowMaker.addMapping("exit", 0);
 
-        // run engine
-        global.FlowEngineV1.setFlowData(flowV1);
-        global.FlowEngineV1.print();
-        global.FlowEngineV1.startFlow();
-        global.FlowEngineV1.print();
-        global.FlowEngineV1.runFlow("logon");
-        global.FlowEngineV1.print();
-        global.FlowEngineV1.runFlow("success");
-        global.FlowEngineV1.print();
-        global.FlowEngineV1.runFlow("business");
-        global.FlowEngineV1.print();
-        global.FlowEngineV1.runFlow("complete");
-        global.FlowEngineV1.print();
-        global.FlowEngineV1.runFlow("logout");
-        global.FlowEngineV1.print();
-        global.FlowEngineV1.runFlow("exit");
-        global.FlowEngineV1.print();
+      // run engine
+      global.FlowEngineV1.setFlowData(flowV1);
+      global.FlowEngineV1.print();
+      global.FlowEngineV1.startFlow();
+      global.FlowEngineV1.print();
+      global.FlowEngineV1.runFlow("logon");
+      global.FlowEngineV1.print();
+      global.FlowEngineV1.runFlow("success");
+      global.FlowEngineV1.print();
+      global.FlowEngineV1.runFlow("business");
+      global.FlowEngineV1.print();
+      global.FlowEngineV1.runFlow("complete");
+      global.FlowEngineV1.print();
+      global.FlowEngineV1.runFlow("logout");
+      global.FlowEngineV1.print();
+      global.FlowEngineV1.runFlow("exit");
+      global.FlowEngineV1.print();
     }
-}
+  }
 
-//global.AppV1.run(global);
+  //global.AppV1.run(global);
 
-var flowData = {
+  var flowData = {
     "nodes": [{
-        "clazz": "node://com.cachetian.flow.sample.nodes.Guest",
-        "remark": "Guest Node 1",
-        "mappings": ["node-1", "result-0"]
+      "clazz": "node://com.cachetian.flow.sample.nodes.Guest",
+      "remark": "Guest Node 1",
+      "mappings": ["node-1", "result-0"]
     }, {
-        "clazz": "node://com.cachetian.flow.sample.nodes.Logon",
-        "remark": "Logon Node 2",
-        "mappings": ["node-2", "node-0"]
+      "clazz": "node://com.cachetian.flow.sample.nodes.Logon",
+      "remark": "Logon Node 2",
+      "mappings": ["node-2", "node-0"]
     }, {
-        "clazz": "node://com.cachetian.flow.sample.nodes.Home",
-        "remark": "Home Node 3",
-        "mappings": ["node-0", "node-3"]
+      "clazz": "node://com.cachetian.flow.sample.nodes.Home",
+      "remark": "Home Node 3",
+      "mappings": ["node-0", "node-3"]
     }, {
-        "clazz": "node://com.cachetian.flow.sample.nodes.Business",
-        "remark": "Business Node 4",
-        "mappings": ["node-2"]
+      "clazz": "node://com.cachetian.flow.sample.nodes.Business",
+      "remark": "Business Node 4",
+      "mappings": ["node-2"]
     }],
     "entry": "node-0",
     "remark": "sample flow",
     "results": ["flowEnd"]
-};
+  };
 
-var businessMasterNode = {
+  var businessMasterNode = {
     "clazz": "com.cachetian.flow.sample.nodes.BusinessMaster",
     "remark": "This is Business Master node",
     "results": ["detail", "exit"]
-};
+  };
 
-var businessDetailNode = {
+  var businessDetailNode = {
     "clazz": "com.cachetian.flow.sample.nodes.BusinessDetail",
     "remark": "This is Business Detail node",
     "results": ["master"]
-};
+  };
 
-var businessMdFlow = {
+  var businessMdFlow = {
     "nodes": [{
-        "clazz": "node://com.cachetian.flow.sample.nodes.BusinessMaster",
-        "remark": "Business Master Node 0",
-        "mappings": ["node-1", "result-0"]
+      "clazz": "node://com.cachetian.flow.sample.nodes.BusinessMaster",
+      "remark": "Business Master Node 0",
+      "mappings": ["node-1", "result-0"]
     }, {
-        "clazz": "node://com.cachetian.flow.sample.nodes.BusinessDetail",
-        "remark": "Business Detail Node 1",
-        "mappings": ["node-0"]
+      "clazz": "node://com.cachetian.flow.sample.nodes.BusinessDetail",
+      "remark": "Business Detail Node 1",
+      "mappings": ["node-0"]
     }],
     "entry": "node-0",
     "clazz": "flow://com.cachetian.flow.sample.flows.BusinessMdFlow",
     "remark": "Master Detail Business flow",
     "results": ["flowEnd"]
-};
+  };
 
-var appflow = {
+  var appflow = {
     "nodes": [{
-        "clazz": "node://com.cachetian.flow.sample.nodes.Guest",
-        "remark": "Guest Node 1",
-        "mappings": ["node-1", "result-0"]
+      "clazz": "node://com.cachetian.flow.sample.nodes.Guest",
+      "remark": "Guest Node 1",
+      "mappings": ["node-1", "result-0"]
     }, {
-        "clazz": "node://com.cachetian.flow.sample.nodes.Logon",
-        "remark": "Logon Node 2",
-        "mappings": ["node-2", "node-0"]
+      "clazz": "node://com.cachetian.flow.sample.nodes.Logon",
+      "remark": "Logon Node 2",
+      "mappings": ["node-2", "node-0"]
     }, {
-        "clazz": "node://com.cachetian.flow.sample.nodes.Home",
-        "remark": "Home Node 3",
-        "mappings": ["node-0", "node-3"]
+      "clazz": "node://com.cachetian.flow.sample.nodes.Home",
+      "remark": "Home Node 3",
+      "mappings": ["node-0", "node-3"]
     }, {
-        "clazz": "node://com.cachetian.flow.sample.nodes.Business",
-        "remark": "Business Node 4",
-        "mappings": ["node-2"]
+      "clazz": "node://com.cachetian.flow.sample.nodes.Business",
+      "remark": "Business Node 4",
+      "mappings": ["node-2"]
     }, {
-        "clazz": "flow://com.cachetian.flow.sample.nodes.Business",
-        "remark": "Business Node 4",
-        "mappings": ["node-2"]
+      "clazz": "flow://com.cachetian.flow.sample.nodes.Business",
+      "remark": "Business Node 4",
+      "mappings": ["node-2"]
     }],
     "entry": "node-0",
     "remark": "sample flow",
     "results": ["flowEnd"]
-};
+  };
 
-var flow = {
+  var flow = {
     /**
      *  add node trigger mappings adds
      * @param {[type]} sClazz [description]
@@ -634,188 +634,194 @@ var flow = {
     addMapping: function(sId, sResult, sTarget) {
 
     }
-};
+  };
 
-var flowData0 = {
+  var flowData0 = {
     "nodes": [],
     "entry": "",
     "remark": "sample flow 0",
     "results": ["flowEnd"]
-};
+  };
 
-// global, means any resource, nodes, functions, objects, mvcflow
+  // global, means any resource, nodes, functions, objects, mvcflow
 
-// test case
-global.AppV2 = {
+  // test case
+  global.AppV2 = {
     run: function(global) {
-        console.log("global.App.run() - start");
-        // inti repo
-        global.NodeRepo.addNode(guestNode).addNode(logonNode).addNode(homeNode).addNode(businessNode).addNode(businessDetailNode).addNode(businessMasterNode).addNode(businessMdFlow);
+      console.log("global.App.run() - start");
+      // inti repo
+      global.NodeRepo.addNode(guestNode).addNode(logonNode).addNode(homeNode).addNode(businessNode).addNode(businessDetailNode).addNode(businessMasterNode).addNode(businessMdFlow);
 
-        // make flow
-        global.FlowMaker.setDomain(global);
-        var oFlow = global.FlowMaker.createFlow("com.cachetian.flow.sample.nodes.Guest", "sample flow", ["flowend"]);
-        oFlow.addNode("guest", "com.cachetian.flow.sample.nodes.Guest");
-        oFlow.addMapping("exit", 0);
-        var oNode = oFlow.getNode("guest"); // default by name
-        var oNodeByIndex = oFlow.getNodeByIndex("0");
-        var oNodeByName = oFlow.getNodeByName("0"); // get a inner node by path, by path you can access any node from static view
-        oNode.addMapping("exit"); //add a mapping inside node scope
-        oFlow.addMapping("entry", "node://0");
+      // make flow
+      global.FlowMaker.setDomain(global);
+      var oFlow = global.FlowMaker.createFlow("com.cachetian.flow.sample.nodes.Guest", "sample flow", ["flowend"]);
+      oFlow.addNode("guest", "com.cachetian.flow.sample.nodes.Guest");
+      oFlow.addMapping("exit", 0);
+      var oNode = oFlow.getNode("guest"); // default by name
+      var oNodeByIndex = oFlow.getNodeByIndex("0");
+      var oNodeByName = oFlow.getNodeByName("0"); // get a inner node by path, by path you can access any node from static view
+      oNode.addMapping("exit"); //add a mapping inside node scope
+      oFlow.addMapping("entry", "node://0");
 
-        //global.FlowMaker.addNode("logon", "com.cachetian.flow.sample.nodes.Logon");
-        //global.FlowMaker.addMapping("exit", 0);
+      //global.FlowMaker.addNode("logon", "com.cachetian.flow.sample.nodes.Logon");
+      //global.FlowMaker.addMapping("exit", 0);
 
-        // run engine
-        global.FlowEngine.setDomain(global);
-        global.FlowEngine.setFlowData(flowData);
-        global.FlowEngine.print();
-        global.FlowEngine.startFlow();
-        global.FlowEngine.print();
-        global.FlowEngine.runFlow("logon");
-        global.FlowEngine.print();
-        global.FlowEngine.runFlow("success");
-        global.FlowEngine.print();
-        global.FlowEngine.runFlow("business");
-        global.FlowEngine.print();
-        global.FlowEngine.runFlow("complete");
-        global.FlowEngine.print();
-        global.FlowEngine.runFlow("logout");
-        global.FlowEngine.print();
-        global.FlowEngine.runFlow("exit");
-        global.FlowEngine.print();
+      // run engine
+      global.FlowEngine.setDomain(global);
+      global.FlowEngine.setFlowData(flowData);
+      global.FlowEngine.print();
+      global.FlowEngine.startFlow();
+      global.FlowEngine.print();
+      global.FlowEngine.runFlow("logon");
+      global.FlowEngine.print();
+      global.FlowEngine.runFlow("success");
+      global.FlowEngine.print();
+      global.FlowEngine.runFlow("business");
+      global.FlowEngine.print();
+      global.FlowEngine.runFlow("complete");
+      global.FlowEngine.print();
+      global.FlowEngine.runFlow("logout");
+      global.FlowEngine.print();
+      global.FlowEngine.runFlow("exit");
+      global.FlowEngine.print();
 
-        global.FlowEngine.setDomain(global);
-        global.FlowEngine.setFlowData(businessMdFlow);
-        global.FlowEngine.print();
-        global.FlowEngine.startFlow();
-        global.FlowEngine.print();
-        global.FlowEngine.runFlow("detail");
-        global.FlowEngine.print();
-        global.FlowEngine.runFlow("master");
-        global.FlowEngine.print();
-        global.FlowEngine.runFlow("exit");
-        global.FlowEngine.print();
+      global.FlowEngine.setDomain(global);
+      global.FlowEngine.setFlowData(businessMdFlow);
+      global.FlowEngine.print();
+      global.FlowEngine.startFlow();
+      global.FlowEngine.print();
+      global.FlowEngine.runFlow("detail");
+      global.FlowEngine.print();
+      global.FlowEngine.runFlow("master");
+      global.FlowEngine.print();
+      global.FlowEngine.runFlow("exit");
+      global.FlowEngine.print();
     }
-};
+  };
 
-var flowData1 = {
+  var flowData1 = {
     "nodes": [{
-        "remark": "Guest Node 1",
-        "mappings": {
-            "logon": "",
-            "exit": ""
-        }
+      "remark": "Guest Node 1",
+      "mappings": {
+        "logon": "",
+        "exit": ""
+      }
     }],
     "entry": "node-0",
     "remark": "sample flow",
     "results": ["flowEnd"]
-};
+  };
 
-var flowData2 = {
+  var flowData2 = {
     "nodes": [{
-        "remark": "Guest Node 1",
-        "mappings": {
-            "logon": "node-1",
-            "exit": "result-0"
-        }
+      "remark": "Guest Node 1",
+      "mappings": {
+        "logon": "node-1",
+        "exit": "result-0"
+      }
     }, {
-        "remark": "Logon Node 2",
-        "mappings": {
-            "success": "node-2",
-            "error": "node-0"
-        }
+      "remark": "Logon Node 2",
+      "mappings": {
+        "success": "node-2",
+        "error": "node-0"
+      }
     }, {
-        "remark": "Home Node 3",
-        "mappings": {
-            "logout": "node-0",
-            "business": "node-3"
-        }
+      "remark": "Home Node 3",
+      "mappings": {
+        "logout": "node-0",
+        "business": "node-3"
+      }
     }, {
-        "remark": "Business Node 4",
-        "mappings": {
-            "complete": "node-2"
-        }
+      "remark": "Business Node 4",
+      "mappings": {
+        "complete": "node-2"
+      }
     }],
     "entry": "node-0",
     "remark": "sample flow",
     "results": ["flowEnd"]
-};
+  };
+}
 
+////////////////////////////////////////////////////////////////////////////////
 //
 // V3 OO based mvcflow
 //
+// Version 3.0 code start from here!
+//
+////////////////////////////////////////////////////////////////////////////////
 
+var util = require('util');
 
 function Info(oData) {
-    this._code = "";
-    this._name = "";
-    this._remark = "";
-    if (oData && oData instanceof Object) {
-        if (oData.code) {
-            this._code = oData.code;
-        }
-        if (oData.name) {
-            this._name = oData.name;
-        }
-        if (oData.remark) {
-            this._remark = oData.remark;
-        }
+  this._code = "";
+  this._name = "";
+  this._remark = "";
+  if (oData && oData instanceof Object) {
+    if (oData.code) {
+      this._code = oData.code;
     }
+    if (oData.name) {
+      this._name = oData.name;
+    }
+    if (oData.remark) {
+      this._remark = oData.remark;
+    }
+  }
 };
 Info.prototype.getCode = function() {
-    return this._code;
+  return this._code;
 };
 Info.prototype.setCode = function(sCode) {
-    this._code = sCode;
+  this._code = sCode;
 }
 Info.prototype.getName = function() {
-    return this._name;
+  return this._name;
 }
 Info.prototype.setName = function(sName) {
-    this._name = sName
+  this._name = sName
 }
 Info.prototype.getRemark = function() {
-    return this._remark;
+  return this._remark;
 }
 Info.prototype.setRemark = function(sRemark) {
-    this._remark = sRemark;
+  this._remark = sRemark;
 }
 
 function Target(oData) {
-    this._Id;
-    this._info = new Info();
-    this._scope;
+  this._Id;
+  this._info = new Info();
+  this._scope;
 }
 
 Target.prototype.getId = function() {
-    return this._Id;
+  return this._Id;
 }
 Target.prototype.setId = function(sId) {
-    this._Id = sId;
+  this._Id = sId;
 }
 Target.prototype.getInfo = function() {
-    return this._info;
+  return this._info;
 }
 Target.prototype.setInfo = function(oInfo) {
-    this._info = oInfo;
+  this._info = oInfo;
 }
 Target.prototype.getScope = function() {
-    return this._info;
+  return this._info;
 }
 Target.prototype.setScope = function(oScope) {
-    this._scope = oScope;
+  this._scope = oScope;
 }
 
 function Scope() {
-    this._targets = new Object();
+  this._targets = new Object();
 }
 Scope.prototype.getTarget = function(sId) {
-    return this._targets[sId];
+  return this._targets[sId];
 }
 Scope.prototype.registerTarget = function(oTarget) {
-    oTarget.setScope(this);
-    this._targets[oTarget.getId()] = oTarget;
+  oTarget.setScope(this);
+  this._targets[oTarget.getId()] = oTarget;
 }
 Scope.prototype.getAllTargetIds = function() {
   var aProps = [];
@@ -825,60 +831,391 @@ Scope.prototype.getAllTargetIds = function() {
     }
   }
   return aProps;
-    //return this._targets.keys();
+  //return this._targets.keys();
+}
+
+function ExitDestination() {
+  this._flowEnd = false;
+  this._target = null;
+}
+ExitDestination.prototype.isFlowEnd = function() {
+  return this._isFlowEnd;
+}
+ExitDestination.prototype.getFlowEnd = function() {
+  return this._flowEnd;
+}
+ExitDestination.prototype.setFlowEnd = function(bFlowEnd) {
+  this._flowEnd = bFlowEnd;
+}
+ExitDestination.prototype.getTarget = function() {
+  return this._target;
+}
+ExitDestination.prototype.setTarget = function(oTarget) {
+  this._target = oTarget;
+}
+
+function NodeModel() {
+  this._info = new Info();
+  this._inputs = [];
+  this._outputs = [];
+  this._exits = [];
+  this._exitName2Index = {};
+  this._instances = [];
+}
+NodeModel.prototype.getInfo = function() {
+  return this._info;
+}
+NodeModel.prototype.setInfo = function(oInfo) {
+  this._info = oInfo;
+}
+NodeModel.prototype.getExits = function() {
+  return this._exits;
+}
+NodeModel.prototype.setExits = function(aExits) {
+  console.log("NodeModel.setExits(<aExits=[" + aExits + "]>)");
+  for (var i = 0; i < aExits.length; i++) {
+    this._exitName2Index[aExits[i]] = i;
+  }
+  this._exits = aExits;
+}
+NodeModel.prototype.registerIntance = function(oNode) {
+  // generate and set sequence number
+  var seq = this._instances.length;
+  oNode.getInfo().setCode(seq);
+  // auto generated name
+  oNode.getInfo().setName(this.getInfo().getName() + " " + seq);
+  console.log("NodeModel.registerIntance() this.info is: " + printInfo(this.getInfo()));
+  console.log("NodeModel.registerIntance() this.info,name: " + this.getInfo().getName());
+  oNode.getInfo().setRemark("sequence number:" + seq);
+  oNode.setModel(this);
+
+  this._instances.push(oNode);
+}
+
+NodeModel.prototype.getExitIndexByName = function(sName) {
+  //var index = this.getExits().indexOf(sName);
+  var index = this._exitName2Index[sName];
+  console.log("NodeModel.getExitIndexByName() exitName2Index:" + printObject(this._exitName2Index));
+  console.log("NodeModel.getExitIndexByName(<sName=[" + sName + "]>) return [" + index + "]");
+  return this._exits.indexOf(sName);
+}
+
+function FlowModel() {
+  this._info = new Info();
+  this._inputs = [];
+  this._outputs = [];
+  this._exits = [];
+  this._exitName2Index = {};
+  this._scope = new Scope();
+  this._entry = null;
+}
+util.inherits(FlowModel, NodeModel);
+
+FlowModel.prototype.addNode = function(oNode) {
+  this._scope.registerTarget(oNode);
+}
+FlowModel.prototype.addMapping = function(oSource, oDestination) {
+  console.log("FlowModel.addMapping(<oSource=[" + oSource + "]>, <oDestination=[" + oDestination + "]>) ");
+  // get Node
+  var oNode = oSource.node;
+  // get exit
+  var iExit = oNode.getModel().getExitIndexByName(oSource.exit);
+  oNode.setExit(iExit, oDestination);
+}
+FlowModel.prototype.getScope = function() {
+  return this._scope;
+}
+FlowModel.prototype.setScope = function(oScope) {
+  this._scope = oScope;
+}
+FlowModel.prototype.getEntry = function() {
+  return this._entry;
+}
+FlowModel.prototype.setEntry = function(oNode) {
+  try {
+    // NOTE:
+    // oNode must be one added oNodes
+    this._entry = oNode;
+  } catch (e) {
+    throw new Error("FlowModel.setEntry error, message: " + e.message + ", traceStack is: ");
+  } finally {
+
+  }
+}
+
+function Node() {
+  this._model = null;
+  this._modelCode = "";
+  this._exits = [];
+  this._info = new Info();
+}
+util.inherits(Node, Target);
+Node.prototype.getModel = function() {
+  return this._model;
+}
+Node.prototype.setModel = function(oModel) {
+  this._model = oModel;
+  this._exits.length = oModel.getExits().length;
+}
+Node.prototype.getModelCode = function() {
+  return this._modelCode;
+}
+Node.prototype.setModelCode = function(sModelCode) {
+  this._modelCode = sModelCode;
+}
+Node.prototype.getExits = function() {
+  return this._exits;
+}
+Node.prototype.setExit = function(iExit, oExitDestination) {
+  console.log("Node.setExit(<iExit=[" + iExit + "]>, <oExitDestination=[" + oExitDestination + "]>)");
+  this._exits[iExit] = oExitDestination;
+}
+
+function FlowEngine() {
+  this._flowModel = null;
+  this._currentNode = null;
+  this._flowExit = "";
+}
+FlowEngine.prototype.start = function() {
+  this._currentNode = this._flowModel.getEntry();
+}
+
+FlowEngine.prototype.goToNextNode = function(sResult) {
+  console.log("FlowEngine.goToNextNode(<sResult=[" + sResult + "]>)");
+  var iExit = this.getCurrentNode().getModel().getExitIndexByName(sResult);
+  console.log("FlowEngine.goToNextNode() iExit is:" + iExit);
+  console.log("FlowEngine.goToNextNode() currentNode.exits is:" + this.getCurrentNode().getExits())
+  var oExitDestination = this.getCurrentNode().getExits()[iExit];
+  console.log("FlowEngine.goToNextNode() oExitDestination:");
+  if (oExitDestination.isFlowEnd()) {
+    this._flowExit = oDestination.getTarget();
+    this._currentNode = null;
+  } else {
+    this._currentNode = oExitDestination.getTarget();
+  }
+}
+FlowEngine.prototype.getCurrentNode = function(sResult) {
+  return this._currentNode;
+}
+FlowEngine.prototype.setFlowModel = function(oFlowModel) {
+  this._flowModel = oFlowModel;
 }
 
 var idSequenceNumber = 0;
 var randomSequenceNumber = 0;
 var uuid = require('node-uuid');
+
 function generateTarget() {
-    var seq = idSequenceNumber++;
-    var oTarget = new Target();
-    oTarget.setId(uuid.v1());
-    oTarget.setInfo(generateInfo());
-    return oTarget;
+  var seq = idSequenceNumber++;
+  var oTarget = new Target();
+  oTarget.setId(uuid.v1());
+  oTarget.setInfo(generateInfo());
+  return oTarget;
 }
 
 function generateInfo() {
-    var seq = randomSequenceNumber++;
-    var oInfo = new Info();
-    oInfo.setCode("code" + seq);
-    oInfo.setName("name" + seq);
-    oInfo.setRemark("This is info of seq" + seq);
-    return oInfo;
+  var seq = randomSequenceNumber++;
+  var oInfo = new Info();
+  oInfo.setCode("code" + seq);
+  oInfo.setName("name" + seq);
+  oInfo.setRemark("This is info of seq" + seq);
+  return oInfo;
 }
-global.App = {
-    run: function(global) {
-        console.log("V3 mvcflow start");
 
-        // start from create Node Model
-        var oTarget = new Target();
-        oTarget.setId("001");
-        oTarget.setInfo(new Info());
-        oTarget.getInfo().setCode("c001");
-        oTarget.getInfo().setName("n001");
-        oTarget.getInfo().setRemark("this is target");
-        console.log("target.id is: " + oTarget.getId());
-        console.log("target.info.remark is: " + oTarget.getInfo().getRemark());
+function generateNodeModel(oInfo) {
+  var oNodeModel = new NodeModel();
+  oNodeModel.getInfo().setCode(oInfo.code);
+  oNodeModel.getInfo().setName(oInfo.name);
+  oNodeModel.getInfo().setRemark(oInfo.remark);
+  oNodeModel.setExits(oInfo.exits);
+  return oNodeModel;
+}
 
-        var oScope = new Scope();
-        oScope.registerTarget(oTarget);
-        var oScopeTarget = oScope.getTarget("001");
-        console.log("scoped target.id is: " + oScopeTarget.getId());
-        console.log("scoped target.info.remark is: " + oScopeTarget.getInfo().getRemark());
-        oScope.getAllTargetIds();
-        var oGenedInfo = generateInfo();
-        console.log("gened info.remak is: " + oGenedInfo.getRemark());
-        var oGenedTarget = generateTarget();
-        console.log("gened taget.info.remak is: " + oGenedTarget.getInfo().getRemark());
-        for (var i = 0; i < 10; i++) {
-            var oGenedItemTaget = generateTarget();
-            console.log("gened item["+i+"] taget.info.remak is: " + oGenedItemTaget.getInfo().getRemark());
-            oScope.registerTarget(oGenedItemTaget);
-        }
-        var aProps = oScope.getAllTargetIds()
-        console.log("scope all tIds is: "+aProps);
-        console.log("scoped target.info.name is: " + oScope.getTarget(aProps[0]).getInfo().getName());
+function generateNode(oModel) {
+  var oNode = new Node();
+  oNode.setId(uuid.v1());
+  console.log("generateNode() oModel.info: " + printInfo(oModel.getInfo()));
+  oModel.registerIntance(oNode);
+  console.log("generateNode() oNode.info: " + printInfo(oNode.getInfo()));
+  return oNode;
+}
+
+function generateSource(oNode, sExit) {
+  var oSource = {
+    "node": oNode,
+    "exit": sExit
+  }
+  return oSource;
+}
+
+function generateDestination(bFlowEnd, oValue) {
+  var oDestination = new ExitDestination();
+  oDestination.setTarget(oValue);
+  oDestination.setFlowEnd(bFlowEnd);
+  return oDestination;
+}
+
+function printInfo(oInfo) {
+  if (oInfo && oInfo instanceof Info) {
+    return "{code:\"" + oInfo.getCode() + "\", name:\"" + oInfo.getName() + "\", remark:\"" + oInfo.getRemark() + "\"}";
+  }
+  return "empty";
+}
+
+function printObject(object) {
+  var str = "{";
+  for (var variable in object) {
+    if (object.hasOwnProperty(variable)) {
+      str += variable + "=" + object[variable] + ", ";
     }
+  }
+  str += "}";
+  return str;
+}
+
+global.App = {
+  run: function(global) {
+    console.log("V3 mvcflow start");
+
+    // start from create Node Model
+    console.log("Test Class Target:");
+    var oTarget = new Target();
+    oTarget.setId("001");
+    oTarget.setInfo(new Info());
+    oTarget.getInfo().setCode("c001");
+    oTarget.getInfo().setName("n001");
+    oTarget.getInfo().setRemark("this is target");
+    console.log("target.id is: " + oTarget.getId());
+    console.log("target.info is: " + printInfo(oTarget.getInfo()));
+    console.log("");
+
+    console.log("Test Class Scope:");
+    var oScope = new Scope();
+    oScope.registerTarget(oTarget);
+    var oScopeTarget = oScope.getTarget("001");
+    console.log("scoped target.id is: " + oScopeTarget.getId());
+    console.log("scoped target.info is: " + printInfo(oScopeTarget.getInfo()));
+    oScope.getAllTargetIds();
+    var oGenedInfo = generateInfo();
+    console.log("gened info is: " + printInfo(oGenedInfo));
+    var oGenedTarget = generateTarget();
+    console.log("gened taget.info is: " + printInfo(oGenedTarget.getInfo()));
+    for (var i = 0; i < 10; i++) {
+      var oGenedItemTaget = generateTarget();
+      console.log("gened item[" + i + "]taget.info is: " + printInfo(oGenedItemTaget.getInfo()));
+      oScope.registerTarget(oGenedItemTaget);
+    }
+    var aProps = oScope.getAllTargetIds()
+    console.log("scope all tIds are: " + aProps);
+    console.log("scoped target.info.name is: " + oScope.getTarget(aProps[0]).getInfo().getName());
+    console.log("");
+
+    console.log("Test Class NodeModel, Node:");
+    // Create a class - Node model
+    var oNewNodeModel = new NodeModel();
+    oNewNodeModel.getInfo().setCode("mvcflow.sample.nodes.New");
+    oNewNodeModel.getInfo().setRemark("New NM");
+    console.log("newNodeModel.info is: " + printInfo(oNewNodeModel.getInfo()));
+    oNewNodeModel.setExits(["e001", "e002"]);
+    console.log("newNodeModel eixts:" + oNewNodeModel.getExits());
+
+    // Instanciate a instace
+    var oNewNode = new Node();
+    oNewNode.setModel(oNewNodeModel);
+    console.log("newNode.model.info :" + printInfo(oNewNode.getModel().getInfo()));
+
+    var oGenNewNodeModel = generateNodeModel({
+      "code": "mvcflow.sample.nodes.GenNew",
+      "name": "GenNew",
+      "remark": "This is GenNew node",
+      "exits": ["e001", "e002"]
+    });
+    console.log("oGenNewNodeModel.info: " + printInfo(oGenNewNodeModel.getInfo()));
+    var oGenNewNode = generateNode(oGenNewNodeModel);
+    console.log("oGenNewNode.info: " + printInfo(oGenNewNode.getInfo()));
+    console.log("");
+
+    console.log("Test Class FlowModel:");
+    var oFlowModel = new FlowModel();
+    console.log("flowModle inst.info: " + oFlowModel.getInfo());
+    oFlowModel.getInfo().setCode("mvcflow.sample.flows.Menu");
+    oFlowModel.getInfo().setRemark("Menu FM");
+    oFlowModel.setExits(["flowend"]);
+    console.log("flowModel.info.remark is :" + oFlowModel.getInfo().getRemark());
+    oFlowModel.setEntry(oNewNode);
+    console.log("flowModel.entry.info: " + printInfo(oFlowModel.getEntry().getInfo()));
+
+    var oGuestNodeModel = generateNodeModel({
+      "code": "mvcflow.sample.nodes.Guest",
+      "name": "Guest",
+      "remark": "This is Guest node",
+      "exits": ["logon", "exit"]
+    });
+    console.log("oGuestNodeModel.info: " + printInfo(oGuestNodeModel.getInfo()));
+    var oGuestNode = generateNode(oGuestNodeModel);
+    console.log("oGuestNode.info: " + printInfo(oGuestNode.getInfo()));
+    oFlowModel.addNode(oGuestNode);
+
+    var oLogonNodeModel = generateNodeModel({
+      "code": "mvcflow.sample.nodes.Logon",
+      "name": "Logon",
+      "remark": "This is Logon node",
+      "exits": ["success", "error"]
+    });
+    var oLogonNode = generateNode(oLogonNodeModel);
+    oFlowModel.addNode(oLogonNode);
+
+    var oHomeNodeModel = generateNodeModel({
+      "code": "mvcflow.sample.nodes.Home",
+      "name": "Home",
+      "remark": "This is Home node",
+      "exits": ["logout", "business"]
+    });
+    var oHomeNode = generateNode(oHomeNodeModel);
+    oFlowModel.addNode(oHomeNode);
+
+    var oBusinessNodeModel = generateNodeModel({
+      "code": "mvcflow.sample.nodes.Business",
+      "name": "Business",
+      "remark": "This is Business node",
+      "exits": ["complete"]
+    });
+    var oBusinessNode = generateNode(oBusinessNodeModel);
+    oFlowModel.addNode(oBusinessNode);
+
+    // Flow
+    // Guest.exit -> flow.flowend
+    // Guest.logon -> logon
+    // Logon.success -> Home
+    // Logon.error -> Guest
+    // Home.logout -> Guest
+    // Home.business -> Business
+    // Business.complete -> Home
+    oFlowModel.setEntry(oGuestNode);
+    oFlowModel.addMapping(generateSource(oGuestNode, "logon"), generateDestination(true, oLogonNode));
+    oFlowModel.addMapping(generateSource(oGuestNode, "exit"), generateDestination(false, "flowend"));
+    oFlowModel.addMapping(generateSource(oLogonNode, "success"), generateDestination(false, oHomeNode));
+    oFlowModel.addMapping(generateSource(oLogonNode, "error"), generateDestination(false, oGuestNode));
+    oFlowModel.addMapping(generateSource(oHomeNode, "logout"), generateDestination(false, oGuestNode));
+    oFlowModel.addMapping(generateSource(oHomeNode, "business"), generateDestination(false, oBusinessNode));
+    oFlowModel.addMapping(generateSource(oBusinessNode, "complete"), generateDestination(false, oHomeNode));
+
+    var oFlowEngine = new FlowEngine();
+    oFlowEngine.setFlowModel(oFlowModel);
+
+    oFlowEngine.start();
+    var oCurrentNode = oFlowEngine.getCurrentNode();
+    console.log("flowEngine.currentNode.info: " + printInfo(oCurrentNode.getInfo()));
+    oFlowEngine.goToNextNode("logon");
+    console.log("flowEngine.currentNode.info: " + printInfo(oFlowEngine.getCurrentNode().getInfo()));
+    oFlowEngine.goToNextNode("success");
+    console.log("flowEngine.currentNode.info: " + printInfo(oFlowEngine.getCurrentNode().getInfo()));
+    oFlowEngine.goToNextNode("business");
+    console.log("flowEngine.currentNode.info: " + printInfo(oFlowEngine.getCurrentNode().getInfo()));
+    oFlowEngine.goToNextNode("complete");
+    console.log("flowEngine.currentNode.info: " + printInfo(oFlowEngine.getCurrentNode().getInfo()));
+    oFlowEngine.goToNextNode("logout");
+    console.log("flowEngine.currentNode.info: " + printInfo(oFlowEngine.getCurrentNode().getInfo()));
+  }
 };
 global.App.run(global);
