@@ -916,7 +916,7 @@ FlowModel.prototype.addNode = function(oNode) {
   this._scope.registerTarget(oNode);
 }
 FlowModel.prototype.addMapping = function(oSource, oDestination) {
-  console.log("FlowModel.addMapping(<oSource=[" + oSource + "]>, <oDestination=[" + oDestination + "]>) ");
+  console.log("FlowModel.addMapping(<oSource=[" + printSource(oSource) + "]>, <oDestination=[" + printObject(oDestination) + "]>) ");
   // get Node
   var oNode = oSource.node;
   // get exit
@@ -981,17 +981,16 @@ function FlowEngine() {
 FlowEngine.prototype.start = function() {
   this._currentNode = this._flowModel.getEntry();
 }
-FlowEngine.prototype.getStackTopFlowModel = function() {
-  return this._stack[this._stack.length - 1];
+FlowEngine.prototype.getCurrentFlowModel = function() {
+  return this._currentNode.getScope();
 }
 
 FlowEngine.prototype.goToNextNode = function(sResult) {
   console.log("FlowEngine.goToNextNode(<sResult=[" + sResult + "]>)");
   var iExit = this.getCurrentNode().getModel().getExitIndexByName(sResult);
   console.log("FlowEngine.goToNextNode() iExit is:" + iExit);
-  console.log("FlowEngine.goToNextNode() currentNode.exits is:" + this.getCurrentNode().getExits())
   var oExitDestination = this.getCurrentNode().getExits()[iExit];
-  console.log("FlowEngine.goToNextNode() oExitDestination:" + printObject(oExitDestination));
+  console.log("FlowEngine.goToNextNode() oExitDestination is:" + printObject(oExitDestination));
   if (oExitDestination.isFlowEnd()) {
     this._flowExit = oExitDestination.getTarget();
     // out stack
@@ -1009,7 +1008,7 @@ FlowEngine.prototype.goToNextNode = function(sResult) {
     if (this.getCurrentNode() instanceof FlowNode) {
       console.log("FlowEngine.goToNextNode() enter stack");
       this._stack.push(this.getCurrentNode());
-      this._currentNode = this.getStackTopFlowModel().getEntry();
+      this._currentNode = this._currentNode.getModel().getEntry();
     }
   }
 }
@@ -1147,6 +1146,22 @@ function printObject(object) {
       i++;
     }
   }
+  str += "}";
+  return str;
+}
+
+function printSource(oSource) {
+  var str = "{";
+  str += 'node.info.name:""' + oSource.node.getInfo().getName() + '", ';
+  str += 'exit:"' + oSource.exit + '"';
+  str += "}";
+  return str;
+}
+
+function printDestination(oDestination){
+  var str = "{";
+  str += 'flowEnd:""' + oDestination.getFlowEnd() + '", ';
+  str += 'targer:"' + oDestination.getTarget() + '"';
   str += "}";
   return str;
 }
@@ -1362,8 +1377,9 @@ global.App = {
     oAppFlowModel.addMapping(generateSource(oLogonNode, "error"), generateDestination(false, oGuestNode));
     oAppFlowModel.addMapping(generateSource(oHomeNode, "logout"), generateDestination(false, oGuestNode));
     oAppFlowModel.addMapping(generateSource(oHomeNode, "business"), generateDestination(false, oBusinessNode));
+    console.log("Global() just before");
     oAppFlowModel.addMapping(generateSource(oBusinessFlowNode, "complete"), generateDestination(false, oHomeNode));
-
+    console.log("Global() just after");
     var oAppFlowEngine = generateFlowEngine(oAppFlowModel);
     oAppFlowEngine.start();
     console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
