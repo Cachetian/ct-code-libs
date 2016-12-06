@@ -752,6 +752,7 @@ function v1() {
 ////////////////////////////////////////////////////////////////////////////////
 
 var util = require('util');
+var fs = require('fs');
 
 function Info(oData) {
   this._code = "";
@@ -908,6 +909,7 @@ function FlowModel() {
   this._scope = new Scope();
   this._entry = null;
   this._instances = [];
+  this._nodeModels = {};
 }
 util.inherits(FlowModel, NodeModel);
 
@@ -941,6 +943,15 @@ FlowModel.prototype.setEntry = function(oNode) {
   } finally {
 
   }
+}
+FlowModel.prototype.getNodeModelByCode = function(sCode) {
+  return this._nodeModels[sCode];
+}
+FlowModel.prototype.registerNodeModel = function(oNodeModel) {
+  return this._nodeModels[oNodeModel.getInfo().getCode()] = oNodeModel;
+}
+FlowModel.prototype.getNodeModels = function() {
+  return this._nodeModels;
 }
 
 function Node() {
@@ -1047,6 +1058,38 @@ FlowNode.prototype.setExit = function(iExit, oExitDestination) {
   console.log("FlowNode.setExit(<iExit=[" + iExit + "]>, <oExitDestination=[" + printDestination(oExitDestination) + "]>)");
   this._exits[iExit] = oExitDestination;
 }
+
+var FlowMaker = (function() {
+  return {
+    saveFlowModelToFile: function(oFlowModel) {
+      // oFlowModel to String
+
+      // All NodeModels
+
+
+      // All FlowModels
+
+      // All Nodes
+
+      // All Mappings
+
+
+
+      fs.writeFile('flowModel.json', 'Hello Node.js', function(err) {
+        if (err) throw err;
+        console.log('It\'s saved!');
+      });
+    },
+    readFlowModelFromFile: function() {
+      fs.readFile('flowModel.json', {
+        encoding: 'utf-8'
+      }, function(err, data) {
+        if (err) throw err;
+        console.log(data);
+      });
+    }
+  };
+})();
 
 var idSequenceNumber = 0;
 var randomSequenceNumber = 0;
@@ -1397,7 +1440,31 @@ global.App = {
     oAppFlowEngine.goToNextNode("logout");
     //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("exit");
+    console.log("");
 
+    console.log("Test FlowModel registerNodeModel");
+    var oRegFlowModel = generateFlowModel({
+      "code": "mvcflow.sample.flows.Reg",
+      "name": "Reg",
+      "remark": "This is Reg flow",
+      "exits": ["flowend"]
+    });
+    oRegFlowModel.registerNodeModel(oGuestNodeModel);
+    oRegFlowModel.registerNodeModel(oLogonNodeModel);
+    oRegFlowModel.registerNodeModel(oHomeNodeModel);
+    oRegFlowModel.registerNodeModel(oBusinessNodeModel);
+    console.log("flowModel.nodeModels: " + printObject(oRegFlowModel.getNodeModels()));
+    console.log("");
+
+    console.log("Test FlowMaker");
+    //FlowMaker.saveFlowModelToFile(oAppFlowModel);
+    //FlowMaker.readFlowModelFromFile();
+
+    // How to serialize FlowModel
+    // Implements ways of NodeModel to string.
+    // Implements ways of Node to string (without model), use code for reference
+    // Implements ways of Mapping to string, use ID instead Node.
+    // If depends on a FlowModel, load dependcies FlowModel first.
   }
 };
 global.App.run(global);
