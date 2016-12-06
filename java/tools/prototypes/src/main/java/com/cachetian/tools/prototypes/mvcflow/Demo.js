@@ -885,7 +885,6 @@ NodeModel.prototype.registerIntance = function(oNode) {
   // auto generated name
   oNode.getInfo().setName(this.getInfo().getName() + " " + seq);
   console.log("NodeModel.registerIntance() this.info is: " + printInfo(this.getInfo()));
-  console.log("NodeModel.registerIntance() this.info,name: " + this.getInfo().getName());
   oNode.getInfo().setRemark("sequence number:" + seq);
   oNode.setModel(this);
 
@@ -895,8 +894,8 @@ NodeModel.prototype.registerIntance = function(oNode) {
 NodeModel.prototype.getExitIndexByName = function(sName) {
   //var index = this.getExits().indexOf(sName);
   var index = this._exitName2Index[sName];
-  console.log("NodeModel.getExitIndexByName() exitName2Index:" + printObject(this._exitName2Index));
-  console.log("NodeModel.getExitIndexByName(<sName=[" + sName + "]>) return [" + index + "]");
+  //console.log("NodeModel.getExitIndexByName() exitName2Index:" + printObject(this._exitName2Index));
+  //console.log("NodeModel.getExitIndexByName(<sName=[" + sName + "]>) return [" + index + "]");
   return this._exits.indexOf(sName);
 }
 
@@ -916,7 +915,7 @@ FlowModel.prototype.addNode = function(oNode) {
   this._scope.registerTarget(oNode);
 }
 FlowModel.prototype.addMapping = function(oSource, oDestination) {
-  console.log("FlowModel.addMapping(<oSource=[" + printSource(oSource) + "]>, <oDestination=[" + printObject(oDestination) + "]>) ");
+  console.log("FlowModel.addMapping(<oSource=[" + printSource(oSource) + "]>, <oDestination=[" + printDestination(oDestination) + "]>) ");
   // get Node
   var oNode = oSource.node;
   // get exit
@@ -968,7 +967,7 @@ Node.prototype.getExits = function() {
   return this._exits;
 }
 Node.prototype.setExit = function(iExit, oExitDestination) {
-  console.log("Node.setExit(<iExit=[" + iExit + "]>, <oExitDestination=[" + oExitDestination + "]>)");
+  console.log("Node.setExit(<iExit=[" + iExit + "]>, <oExitDestination=[" + printDestination(oExitDestination) + "]>)");
   this._exits[iExit] = oExitDestination;
 }
 
@@ -986,17 +985,18 @@ FlowEngine.prototype.getCurrentFlowModel = function() {
 }
 
 FlowEngine.prototype.goToNextNode = function(sResult) {
-  console.log("FlowEngine.goToNextNode(<sResult=[" + sResult + "]>)");
+  //console.log("FlowEngine.goToNextNode(<sResult=[" + sResult + "]>)");
   var iExit = this.getCurrentNode().getModel().getExitIndexByName(sResult);
-  console.log("FlowEngine.goToNextNode() iExit is:" + iExit);
+  //console.log("FlowEngine.goToNextNode() iExit is:" + iExit);
   var oExitDestination = this.getCurrentNode().getExits()[iExit];
-  console.log("FlowEngine.goToNextNode() oExitDestination is:" + printObject(oExitDestination));
+  //console.log("FlowEngine.goToNextNode() oExitDestination is:" + printDestination(oExitDestination));
+  console.log("FlowEngine.goToNextNode(<sResult=[" + sResult + "]>) found oExitDestination is:" + printDestination(oExitDestination));
   if (oExitDestination.isFlowEnd()) {
     this._flowExit = oExitDestination.getTarget();
     // out stack
     if (this._stack.length === 0) {
-      this._currentNode = null;
       console.log("FlowEngine.goToNextNode() Flow end with exit [" + this._flowExit + "]!");
+      this._currentNode = null;
     } else {
       console.log("FlowEngine.goToNextNode() out stack");
       this._currentNode = this._stack.pop();
@@ -1044,7 +1044,7 @@ FlowNode.prototype.getExits = function() {
   return this._exits;
 }
 FlowNode.prototype.setExit = function(iExit, oExitDestination) {
-  console.log("FlowNode.setExit(<iExit=[" + iExit + "]>, <oExitDestination=[" + oExitDestination + "]>)");
+  console.log("FlowNode.setExit(<iExit=[" + iExit + "]>, <oExitDestination=[" + printDestination(oExitDestination) + "]>)");
   this._exits[iExit] = oExitDestination;
 }
 
@@ -1158,10 +1158,10 @@ function printSource(oSource) {
   return str;
 }
 
-function printDestination(oDestination){
+function printDestination(oDestination) {
   var str = "{";
   str += 'flowEnd:""' + oDestination.getFlowEnd() + '", ';
-  str += 'targer:"' + oDestination.getTarget() + '"';
+  str += 'targer:"' + (oDestination.isFlowEnd() ? oDestination.getTarget() : oDestination.getTarget().getInfo().getName()) + '"';
   str += "}";
   return str;
 }
@@ -1315,8 +1315,8 @@ global.App = {
     // Test subflow
     console.log("Test Sub Flow");
     var oBusinessFlowModel = generateFlowModel({
-      "code": "mvcflow.sample.flows.Business",
-      "name": "Business",
+      "code": "mvcflow.sample.flows.BusinessFlow",
+      "name": "BusinessFlow",
       "remark": "Master Detail Business flow",
       "exits": ["complete"]
     });
@@ -1376,32 +1376,26 @@ global.App = {
     oAppFlowModel.addMapping(generateSource(oLogonNode, "success"), generateDestination(false, oHomeNode));
     oAppFlowModel.addMapping(generateSource(oLogonNode, "error"), generateDestination(false, oGuestNode));
     oAppFlowModel.addMapping(generateSource(oHomeNode, "logout"), generateDestination(false, oGuestNode));
-    oAppFlowModel.addMapping(generateSource(oHomeNode, "business"), generateDestination(false, oBusinessNode));
-    console.log("Global() just before");
+    oAppFlowModel.addMapping(generateSource(oHomeNode, "business"), generateDestination(false, oBusinessFlowNode));
     oAppFlowModel.addMapping(generateSource(oBusinessFlowNode, "complete"), generateDestination(false, oHomeNode));
-    console.log("Global() just after");
+
     var oAppFlowEngine = generateFlowEngine(oAppFlowModel);
     oAppFlowEngine.start();
-    console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
+    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("logon");
-    console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
+    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("success");
-    console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
+    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("business");
-    // >> enter sub flow
-
-    console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
+    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("detail");
-    console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
+    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("master");
-    console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
+    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("exit");
-    // >> out sub flow
-    console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
-    oAppFlowEngine.goToNextNode("complete");
-    console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
+    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("logout");
-    console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
+    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("exit");
 
   }
