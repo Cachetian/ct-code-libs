@@ -869,6 +869,12 @@ NodeModel.prototype.getInfo = function() {
 NodeModel.prototype.setInfo = function(oInfo) {
   this._info = oInfo;
 }
+NodeModel.prototype.getInputs = function() {
+  return this._inputs;
+}
+NodeModel.prototype.getOuputs = function() {
+  return this._outputs;
+}
 NodeModel.prototype.getExits = function() {
   return this._exits;
 }
@@ -880,15 +886,13 @@ NodeModel.prototype.setExits = function(aExits) {
   this._exits = aExits;
 }
 NodeModel.prototype.registerIntance = function(oNode) {
+  console.log("NodeModel.registerIntance(<oNode=[" + oNode + "]>)");
   // generate and set sequence number
   var seq = this._instances.length;
-  oNode.getInfo().setCode(seq);
-  // auto generated name
+  oNode.getInfo().setCode(this.getInfo().getCode());
   oNode.getInfo().setName(this.getInfo().getName() + " " + seq);
-  console.log("NodeModel.registerIntance() this.info is: " + printInfo(this.getInfo()));
-  oNode.getInfo().setRemark("sequence number:" + seq);
+  oNode.getInfo().setRemark(this.getInfo().getRemark() + " " + seq);
   oNode.setModel(this);
-
   this._instances.push(oNode);
 }
 
@@ -1209,6 +1213,69 @@ function printDestination(oDestination) {
   return str;
 }
 
+function nodeModelToJSONString(oNodeModel) {
+  var oData = {
+    "info": {
+      "code": oNodeModel.getInfo().getCode(),
+      "name": oNodeModel.getInfo().getName(),
+      "remark": oNodeModel.getInfo().getRemark()
+    },
+    "inputs": oNodeModel.getInputs(),
+    "ouputs": oNodeModel.getOuputs(),
+    "exits": oNodeModel.getExits()
+  };
+  return JSON.stringify(oData);
+}
+
+function nodeToJSONString(oNode) {
+  var oData = {
+    "id": oNode.getId(),
+    "exits": [],
+    "info": {
+      "code": oNode.getInfo().getCode(),
+      "name": oNode.getInfo().getName(),
+      "remark": oNode.getInfo().getRemark()
+    }
+  };
+  // process exits
+  for (var i = 0; i < oNode.getExits().length; i++) {
+    var oExtDst = oNode.getExits()[i];
+    oData.exits[i] = {
+      "flowEnd": oExtDst.getFlowEnd(),
+      "target": ""
+    };
+    if (oExtDst.isFlowEnd()) {
+      oData.exits[i].target = oExtDst.getTarget();
+    } else {
+      oData.exits[i].target = oExtDst.getTarget().getId();
+    }
+  }
+  return JSON.stringify(oData);
+}
+
+function flowModelToJSONString() {
+  var oData = {
+    "info": {
+      "code": "",
+      "name": "",
+      "remark": ""
+    },
+    "inputs": [],
+    "outputs": [],
+    "exits": [],
+    "nodeModels": [],
+    "nodes": [],
+    "entry": ""
+  };
+  return JSON.stringify(oData);
+}
+
+// FileSystem rules:
+// root of mvcflow fs, homedir/.mvcflow
+// mvcflowRoot/.
+
+var os = require("os");
+
 global.App = {
   run: function(global) {
     console.log("V3 mvcflow start");
@@ -1465,6 +1532,17 @@ global.App = {
     // Implements ways of Node to string (without model), use code for reference
     // Implements ways of Mapping to string, use ID instead Node.
     // If depends on a FlowModel, load dependcies FlowModel first.
+
+    console.log("os.homedir: " + os.homedir());
+    console.log("");
+
+    console.log("Test serialize");
+    var nodeModelJsonString = nodeModelToJSONString(oGuestNodeModel);
+    console.log("nodeModelJsonString: " + nodeModelJsonString);
+    var nodeJsonString = nodeToJSONString(oGuestNode);
+    console.log("nodeJsonString: " + nodeJsonString);
+    var flownNodeJsonString = flowModelToJSONString(oBusinessFlowModel);
+    console.log("flownNodeJsonString: " + flownNodeJsonString);
   }
 };
 global.App.run(global);
