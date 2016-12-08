@@ -913,11 +913,13 @@ function FlowModel() {
   this._scope = new Scope();
   this._entry = null;
   this._instances = [];
-  this._nodeModels = {};
+  this._nodeModelCode2Inst = {};
+  this._nodeModels = [];
 }
 util.inherits(FlowModel, NodeModel);
 
 FlowModel.prototype.addNode = function(oNode) {
+  this._instances.push(oNode);
   this._scope.registerTarget(oNode);
 }
 FlowModel.prototype.addMapping = function(oSource, oDestination) {
@@ -949,13 +951,17 @@ FlowModel.prototype.setEntry = function(oNode) {
   }
 }
 FlowModel.prototype.getNodeModelByCode = function(sCode) {
-  return this._nodeModels[sCode];
+  return this._nodeModelCode2Inst[sCode];
 }
 FlowModel.prototype.registerNodeModel = function(oNodeModel) {
-  return this._nodeModels[oNodeModel.getInfo().getCode()] = oNodeModel;
+  this._nodeModels.push(oNodeModel);
+  return this._nodeModelCode2Inst[oNodeModel.getInfo().getCode()] = oNodeModel;
 }
 FlowModel.prototype.getNodeModels = function() {
   return this._nodeModels;
+}
+FlowModel.prototype.getInstances = function(){
+  return this._instances;
 }
 
 function Node() {
@@ -1253,20 +1259,35 @@ function nodeToJSONString(oNode) {
   return JSON.stringify(oData);
 }
 
-function flowModelToJSONString() {
+function flowModelToJSONString(oFlowModel) {
   var oData = {
     "info": {
-      "code": "",
-      "name": "",
-      "remark": ""
+      "code": oFlowModel.getInfo().getCode(),
+      "name": oFlowModel.getInfo().getName(),
+      "remark": oFlowModel.getInfo().getRemark()
     },
-    "inputs": [],
-    "outputs": [],
-    "exits": [],
+    "inputs": oFlowModel.getInputs(),
+    "outputs": oFlowModel.getOuputs(),
+    "exits": oFlowModel.getExits(),
     "nodeModels": [],
     "nodes": [],
     "entry": ""
   };
+
+  if (oFlowModel.getEntry()){
+    oData.entry = oFlowModel.getEntry().getId();
+  }
+
+  // for each node models
+  for (var i = 0; i < oFlowModel.getNodeModels().length; i++) {
+    var oModel = oFlowModel.getNodeModels()[i];
+    oData.nodeModels.push(nodeModelToJSONString(oModel));
+  }
+
+  // for each nodes
+  for (var j = 0; j < oFlowModel.getInstances().length; j++) {
+    array[j]
+  }
   return JSON.stringify(oData);
 }
 
@@ -1537,11 +1558,25 @@ global.App = {
     console.log("");
 
     console.log("Test serialize");
+    var oSerFlowModel = generateFlowModel({
+      "code": "mvcflow.sample.flows.Ser",
+      "name": "Ser",
+      "remark": "This is Ser flow",
+      "exits": ["flowend"]
+    });
+    oSerFlowModel.registerNodeModel(oGuestNodeModel);
+    oSerFlowModel.registerNodeModel(oLogonNodeModel);
+    oSerFlowModel.registerNodeModel(oHomeNodeModel);
+    oSerFlowModel.registerNodeModel(oBusinessNodeModel);
+    oSerFlowModel.addNode(oGuestNode);
+    oSerFlowModel.addNode(oLogonNode);
+    oSerFlowModel.addNode(oHomeNode);
+    oSerFlowModel.addNode(oBusinessFlowNode);
     var nodeModelJsonString = nodeModelToJSONString(oGuestNodeModel);
     console.log("nodeModelJsonString: " + nodeModelJsonString);
     var nodeJsonString = nodeToJSONString(oGuestNode);
     console.log("nodeJsonString: " + nodeJsonString);
-    var flownNodeJsonString = flowModelToJSONString(oBusinessFlowModel);
+    var flownNodeJsonString = flowModelToJSONString(oRegFlowModel);
     console.log("flownNodeJsonString: " + flownNodeJsonString);
   }
 };
