@@ -753,6 +753,8 @@ function v1() {
 
 var util = require('util');
 var fs = require('fs');
+var path = require('path');
+var mkdirp = require('mkdirp');
 
 function Info(oData) {
   this._code = "";
@@ -861,7 +863,7 @@ function NodeModel() {
   this._outputs = [];
   this._exits = [];
   this._exitName2Index = {};
-  this._instances = [];
+  this._nodes = [];
 }
 NodeModel.prototype.getInfo = function() {
   return this._info;
@@ -888,12 +890,12 @@ NodeModel.prototype.setExits = function(aExits) {
 NodeModel.prototype.registerIntance = function(oNode) {
   console.log("NodeModel.registerIntance(<oNode=[" + oNode + "]>)");
   // generate and set sequence number
-  var seq = this._instances.length;
+  var seq = this._nodes.length;
   oNode.getInfo().setCode(this.getInfo().getCode());
   oNode.getInfo().setName(this.getInfo().getName() + " " + seq);
   oNode.getInfo().setRemark(this.getInfo().getRemark() + " " + seq);
   oNode.setModel(this);
-  this._instances.push(oNode);
+  this._nodes.push(oNode);
 }
 
 NodeModel.prototype.getExitIndexByName = function(sName) {
@@ -912,14 +914,14 @@ function FlowModel() {
   this._exitName2Index = {};
   this._scope = new Scope();
   this._entry = null;
-  this._instances = [];
+  this._nodes = [];
   this._nodeModelCode2Inst = {};
   this._nodeModels = [];
 }
 util.inherits(FlowModel, NodeModel);
 
 FlowModel.prototype.addNode = function(oNode) {
-  this._instances.push(oNode);
+  this._nodes.push(oNode);
   this._scope.registerTarget(oNode);
 }
 FlowModel.prototype.addMapping = function(oSource, oDestination) {
@@ -960,8 +962,8 @@ FlowModel.prototype.registerNodeModel = function(oNodeModel) {
 FlowModel.prototype.getNodeModels = function() {
   return this._nodeModels;
 }
-FlowModel.prototype.getInstances = function(){
-  return this._instances;
+FlowModel.prototype.getNodes = function() {
+  return this._nodes;
 }
 
 function Node() {
@@ -1070,32 +1072,43 @@ FlowNode.prototype.setExit = function(iExit, oExitDestination) {
 }
 
 var FlowMaker = (function() {
+
   return {
     saveFlowModelToFile: function(oFlowModel) {
-      // oFlowModel to String
-
-      // All NodeModels
-
-
-      // All FlowModels
-
-      // All Nodes
-
-      // All Mappings
-
-
-
-      fs.writeFile('flowModel.json', 'Hello Node.js', function(err) {
-        if (err) throw err;
-        console.log('It\'s saved!');
-      });
+      console.log("FlowMaker.saveFlowModelToFile()");
+      // e.g. a.b.c => a/b/c
+      var rootPath = os.homedir() + path.sep + '.mvcflow' + path.sep + 'repo';
+      var codePath = oFlowModel.getInfo().getCode().replace(/\./g, path.sep);
+      var fullDirPath = rootPath + path.sep + codePath;
+      var fullPath = fullDirPath + path.sep + 'flowModel.json';
+      console.log("path is:" + fullDirPath);
+      if (!fs.existsSync(fullDirPath)) {
+        mkdirp(fullDirPath, function(err) {
+          fs.writeFile(fullPath, flowModelToJSONString(oFlowModel), function(err) {
+            if (err) throw err;
+            console.log('It\'s saved!');
+          });
+        });
+      } else {
+        fs.writeFile(fullPath, flowModelToJSONString(oFlowModel), function(err) {
+          if (err) throw err;
+          console.log('It\'s saved!');
+        });
+      }
     },
-    readFlowModelFromFile: function() {
-      fs.readFile('flowModel.json', {
+    readFlowModelFromFile: function(sCode, callback) {
+      var rootPath = os.homedir() + path.sep + '.mvcflow' + path.sep + 'repo';
+      var codePath = sCode.replace(/\./g, path.sep);
+      var fullDirPath = rootPath + path.sep + codePath;
+      var fullPath = fullDirPath + path.sep + 'flowModel.json';
+      fs.readFile(fullPath, {
         encoding: 'utf-8'
       }, function(err, data) {
         if (err) throw err;
         console.log(data);
+        if (callback) {
+          callback(data);
+        }
       });
     }
   };
@@ -1274,7 +1287,7 @@ function flowModelToJSONString(oFlowModel) {
     "entry": ""
   };
 
-  if (oFlowModel.getEntry()){
+  if (oFlowModel.getEntry()) {
     oData.entry = oFlowModel.getEntry().getId();
   }
 
@@ -1285,8 +1298,9 @@ function flowModelToJSONString(oFlowModel) {
   }
 
   // for each nodes
-  for (var j = 0; j < oFlowModel.getInstances().length; j++) {
-    array[j]
+  for (var j = 0; j < oFlowModel.getNodes().length; j++) {
+    var oNode = oFlowModel.getNodes()[j];
+    oData.nodes.push(nodeToJSONString(oNode));
   }
   return JSON.stringify(oData);
 }
@@ -1571,13 +1585,27 @@ global.App = {
     oSerFlowModel.addNode(oGuestNode);
     oSerFlowModel.addNode(oLogonNode);
     oSerFlowModel.addNode(oHomeNode);
-    oSerFlowModel.addNode(oBusinessFlowNode);
+    oSerFlowModel.addNode(oBusinessNode);
+    oSerFlowModel.setEntry(oGuestNode);
+    oSerFlowModel.addMapping(generateSource(oGuestNode, "logon"), generateDestination(false, oLogonNode));
+    oSerFlowModel.addMapping(generateSource(oGuestNode, "exit"), generateDestination(true, "flowend"));
+    oSerFlowModel.addMapping(generateSource(oLogonNode, "success"), generateDestination(false, oHomeNode));
+    oSerFlowModel.addMapping(generateSource(oLogonNode, "error"), generateDestination(false, oGuestNode));
+    oSerFlowModel.addMapping(generateSource(oHomeNode, "logout"), generateDestination(false, oGuestNode));
+    oSerFlowModel.addMapping(generateSource(oHomeNode, "business"), generateDestination(false, oBusinessNode));
+    oSerFlowModel.addMapping(generateSource(oBusinessNode, "complete"), generateDestination(false, oHomeNode));
     var nodeModelJsonString = nodeModelToJSONString(oGuestNodeModel);
     console.log("nodeModelJsonString: " + nodeModelJsonString);
     var nodeJsonString = nodeToJSONString(oGuestNode);
     console.log("nodeJsonString: " + nodeJsonString);
-    var flownNodeJsonString = flowModelToJSONString(oRegFlowModel);
-    console.log("flownNodeJsonString: " + flownNodeJsonString);
+    var flowModelJsonString = flowModelToJSONString(oSerFlowModel);
+    console.log("flowModelJsonString: " + flowModelJsonString);
+    console.log("businessFlow JSONString:" + flowModelToJSONString(oBusinessFlowModel));
+
+    // FlowMaker.saveFlowModelToFile(oSerFlowModel);
+    // FlowMaker.readFlowModelFromFile("mvcflow.sample.flows.Ser", function(data) {
+    //   console.log("read JSONString is:" + data);
+    // });
   }
 };
 global.App.run(global);
