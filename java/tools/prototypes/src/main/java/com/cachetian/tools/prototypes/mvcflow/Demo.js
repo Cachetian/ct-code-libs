@@ -755,6 +755,8 @@ var util = require('util');
 var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
+var os = require("os");
+var uuid = require('node-uuid');
 
 function Info(oData) {
   this._code = "";
@@ -792,9 +794,14 @@ Info.prototype.setRemark = function(sRemark) {
 }
 
 function Target(oData) {
-  this._Id;
-  this._info = new Info();
-  this._scope;
+  // property
+  this._Id = null;
+
+  // aggregation
+  this._info = null;
+
+  // association
+  this._scope = null;
 }
 
 Target.prototype.getId = function() {
@@ -810,7 +817,7 @@ Target.prototype.setInfo = function(oInfo) {
   this._info = oInfo;
 }
 Target.prototype.getScope = function() {
-  return this._info;
+  return this._scope;
 }
 Target.prototype.setScope = function(oScope) {
   this._scope = oScope;
@@ -834,36 +841,38 @@ Scope.prototype.getAllTargetIds = function() {
     }
   }
   return aProps;
-  //return this._targets.keys();
+}
+Scope.prototype.toPrintString = function() {
+  return printObject(this._targets);
 }
 
-function ExitDestination() {
-  this._flowEnd = false;
+function Destination() {
+  this._isExit = false;
+  // exit or targetId
   this._target = null;
 }
-ExitDestination.prototype.isFlowEnd = function() {
-  return this._flowEnd;
+Destination.prototype.isFlowEnd = function() {
+  return this._isExit;
 }
-ExitDestination.prototype.getFlowEnd = function() {
-  return this._flowEnd;
+Destination.prototype.getFlowEnd = function() {
+  return this._isExit;
 }
-ExitDestination.prototype.setFlowEnd = function(bFlowEnd) {
-  this._flowEnd = bFlowEnd;
+Destination.prototype.setFlowEnd = function(bFlowEnd) {
+  this._isExit = bFlowEnd;
 }
-ExitDestination.prototype.getTarget = function() {
+Destination.prototype.getTarget = function() {
   return this._target;
 }
-ExitDestination.prototype.setTarget = function(oTarget) {
+Destination.prototype.setTarget = function(oTarget) {
   this._target = oTarget;
 }
 
 function NodeModel() {
-  this._info = new Info();
+  // master
+  this._info = null;
   this._inputs = [];
   this._outputs = [];
   this._exits = [];
-  this._exitName2Index = {};
-  this._nodes = [];
 }
 NodeModel.prototype.getInfo = function() {
   return this._info;
@@ -874,6 +883,9 @@ NodeModel.prototype.setInfo = function(oInfo) {
 NodeModel.prototype.getInputs = function() {
   return this._inputs;
 }
+NodeModel.prototype.setInputs = function(aInputs) {
+  this._inputs = aInputs;
+}
 NodeModel.prototype.getOuputs = function() {
   return this._outputs;
 }
@@ -881,46 +893,46 @@ NodeModel.prototype.getExits = function() {
   return this._exits;
 }
 NodeModel.prototype.setExits = function(aExits) {
-  console.log("NodeModel.setExits(<aExits=[" + aExits + "]>)");
   for (var i = 0; i < aExits.length; i++) {
+    if (!this._exitName2Index) {
+      this._exitName2Index = {};
+    }
     this._exitName2Index[aExits[i]] = i;
   }
   this._exits = aExits;
 }
-NodeModel.prototype.registerIntance = function(oNode) {
-  console.log("NodeModel.registerIntance(<oNode=[" + oNode + "]>)");
-  // generate and set sequence number
-  var seq = this._nodes.length;
-  oNode.getInfo().setCode(this.getInfo().getCode());
-  oNode.getInfo().setName(this.getInfo().getName() + " " + seq);
-  oNode.getInfo().setRemark(this.getInfo().getRemark() + " " + seq);
-  oNode.setModel(this);
-  this._nodes.push(oNode);
-}
-
 NodeModel.prototype.getExitIndexByName = function(sName) {
-  //var index = this.getExits().indexOf(sName);
   var index = this._exitName2Index[sName];
-  //console.log("NodeModel.getExitIndexByName() exitName2Index:" + printObject(this._exitName2Index));
-  //console.log("NodeModel.getExitIndexByName(<sName=[" + sName + "]>) return [" + index + "]");
   return this._exits.indexOf(sName);
+}
+NodeModel.prototype.newInstance = function() {
+  if (!this._instaces) {
+    this._instaces = []
+  }
+  var oNode = new Node();
+  oNode.setInfo(new Info());
+  oNode.getInfo().setCode(this.getInfo().getCode());
+  oNode.getInfo().setName(this.getInfo().getName() + " " + this._instaces.length);
+  oNode.getInfo().setRemark("auto created by Model.newInstance()");
+  oNode.setId(uuid.v1());
+  oNode.setModel(this);
+  this._instaces.push(oNode);
+  return oNode;
 }
 
 function FlowModel() {
-  this._info = new Info();
-  this._inputs = [];
-  this._outputs = [];
-  this._exits = [];
-  this._exitName2Index = {};
-  this._scope = new Scope();
+  // master
   this._entry = null;
-  this._nodes = [];
-  this._nodeModelCode2Inst = {};
   this._nodeModels = [];
+  this._nodes = [];
+  this._scope = new Scope();
+  // temp
+  this._nodeModelCode2Inst = {};
 }
 util.inherits(FlowModel, NodeModel);
 
 FlowModel.prototype.addNode = function(oNode) {
+  console.log("FlowModel.addNode(<oNode=[" + printNode(oNode) + "]>");
   this._nodes.push(oNode);
   this._scope.registerTarget(oNode);
 }
@@ -965,12 +977,28 @@ FlowModel.prototype.getNodeModels = function() {
 FlowModel.prototype.getNodes = function() {
   return this._nodes;
 }
+FlowModel.prototype.getNodeById = function(sId) {
+  return this.getScope().getTarget(sId);
+}
+FlowModel.prototype.newInstance = function() {
+  if (!this._instaces) {
+    this._instaces = []
+  }
+  var oNode = new FlowNode();
+  oNode.setInfo(new Info());
+  oNode.getInfo().setCode(this.getInfo().getCode());
+  oNode.getInfo().setName(this.getInfo().getName() + " " + this._instaces.length);
+  oNode.getInfo().setRemark("auto created by Model.newInstance()");
+  oNode.setId(uuid.v1());
+  oNode.setModel(this);
+  this._instaces.push(oNode);
+  return oNode;
+}
 
 function Node() {
   this._model = null;
-  this._modelCode = "";
-  this._exits = [];
-  this._info = new Info();
+  // Array of Destination
+  this._exits = null;
 }
 util.inherits(Node, Target);
 Node.prototype.getModel = function() {
@@ -978,155 +1006,174 @@ Node.prototype.getModel = function() {
 }
 Node.prototype.setModel = function(oModel) {
   this._model = oModel;
+  if (!this._exits) {
+    this._exits = [];
+  }
   this._exits.length = oModel.getExits().length;
-}
-Node.prototype.getModelCode = function() {
-  return this._modelCode;
-}
-Node.prototype.setModelCode = function(sModelCode) {
-  this._modelCode = sModelCode;
 }
 Node.prototype.getExits = function() {
   return this._exits;
 }
-Node.prototype.setExit = function(iExit, oExitDestination) {
-  console.log("Node.setExit(<iExit=[" + iExit + "]>, <oExitDestination=[" + printDestination(oExitDestination) + "]>)");
-  this._exits[iExit] = oExitDestination;
+Node.prototype.setExit = function(iExit, oDestination) {
+  //console.log("Node.setExit(<iExit=[" + iExit + "]>, <oDestination=[" + printDestination(oDestination) + "]>)");
+  if (!this._exits) {
+    this._exits = [];
+  }
+  this._exits[iExit] = oDestination;
 }
 
-function FlowEngine() {
-  this._flowModel = null;
+/**
+ * Flow Engine, which konws how to find the next, the "goToNextNode" algorithm
+ * @param {FlowModel} oRootFlowModel the root FlowModel
+ */
+function FlowEngine(oRootFlowModel) {
+  this._flowModel = oRootFlowModel;
   this._currentNode = null;
+  // runtime exit, the actual eixt return at runtime.
   this._flowExit = "";
   this._stack = [];
 }
-FlowEngine.prototype.start = function() {
-  this._currentNode = this._flowModel.getEntry();
+
+FlowEngine.prototype.getFlowModel = function() {
+  return this._flowModel;
 }
-FlowEngine.prototype.getCurrentFlowModel = function() {
-  return this._currentNode.getScope();
+FlowEngine.prototype.setFlowModel = function(oFlowModel) {
+  this._flowModel = oFlowModel;
+}
+FlowEngine.prototype.getCurrentNode = function() {
+  //console.log("FlowEngine.getCurrentNode() <return=[" + printObject(this._currentNode) + "]>");
+  return this._currentNode;
+}
+
+/**
+ * Startup the flow
+ */
+FlowEngine.prototype.start = function() {
+  try {
+    // require
+    this._currentNode = this.getFlowModel().getEntry();
+  } catch (e) {
+
+  }
 }
 
 FlowEngine.prototype.goToNextNode = function(sResult) {
-  //console.log("FlowEngine.goToNextNode(<sResult=[" + sResult + "]>)");
   var iExit = this.getCurrentNode().getModel().getExitIndexByName(sResult);
-  //console.log("FlowEngine.goToNextNode() iExit is:" + iExit);
-  var oExitDestination = this.getCurrentNode().getExits()[iExit];
-  //console.log("FlowEngine.goToNextNode() oExitDestination is:" + printDestination(oExitDestination));
-  console.log("FlowEngine.goToNextNode(<sResult=[" + sResult + "]>) found oExitDestination is:" + printDestination(oExitDestination));
-  if (oExitDestination.isFlowEnd()) {
-    this._flowExit = oExitDestination.getTarget();
+  var oDestination = this.getCurrentNode().getExits()[iExit];
+  console.log("FlowEngine.goToNextNode(<sResult=[" + sResult + "]>) return=[" + printDestination(oDestination) + "]");
+  if (oDestination.isFlowEnd()) {
+    this._flowExit = oDestination.getTarget();
     // out stack
     if (this._stack.length === 0) {
       console.log("FlowEngine.goToNextNode() Flow end with exit [" + this._flowExit + "]!");
       this._currentNode = null;
     } else {
-      console.log("FlowEngine.goToNextNode() out stack");
+      console.log("FlowEngine.goToNextNode() out stack!");
       this._currentNode = this._stack.pop();
       this.goToNextNode(this._flowExit);
     }
   } else {
-    this._currentNode = oExitDestination.getTarget();
+    this._currentNode = this.getCurrentNode().getScope().getTarget(oDestination.getTarget());
     // enter stack
     if (this.getCurrentNode() instanceof FlowNode) {
-      console.log("FlowEngine.goToNextNode() enter stack");
+      console.log("FlowEngine.goToNextNode() enter stack!");
       this._stack.push(this.getCurrentNode());
-      this._currentNode = this._currentNode.getModel().getEntry();
+      this._currentNode = this.getCurrentNode().getModel().getEntry();
     }
   }
 }
-FlowEngine.prototype.getCurrentNode = function(sResult) {
-  return this._currentNode;
-}
-FlowEngine.prototype.setFlowModel = function(oFlowModel) {
-  this._flowModel = oFlowModel;
-}
 
-function FlowNode() {
-  this._model = null;
-  this._modelCode = "";
-  this._exits = [];
-  this._info = new Info();
-}
-util.inherits(FlowNode, Target);
-
-FlowNode.prototype.getModel = function() {
-  return this._model;
-}
-FlowNode.prototype.setModel = function(oModel) {
-  this._model = oModel;
-  this._exits.length = oModel.getExits().length;
-}
-FlowNode.prototype.getModelCode = function() {
-  return this._modelCode;
-}
-FlowNode.prototype.setModelCode = function(sModelCode) {
-  this._modelCode = sModelCode;
-}
-FlowNode.prototype.getExits = function() {
-  return this._exits;
-}
-FlowNode.prototype.setExit = function(iExit, oExitDestination) {
-  console.log("FlowNode.setExit(<iExit=[" + iExit + "]>, <oExitDestination=[" + printDestination(oExitDestination) + "]>)");
-  this._exits[iExit] = oExitDestination;
-}
+function FlowNode() {}
+util.inherits(FlowNode, Node);
 
 var FlowMaker = (function() {
 
+  var MVC_FLOW_REPO_ROOT = os.homedir() + path.sep + '.mvcflow' + path.sep + 'repo';
+
+  function saveFlowModelCoreToFile(oFlowModel) {
+    // get storage path
+    var storeDir = getPathFromCode(oFlowModel.getInfo().getCode());
+    var flowModelJsonFilePath = storeDir + path.sep + 'flowModel.json';
+
+    // persist
+    if (!fs.existsSync(storeDir)) {
+      mkdirp.sync(storeDir);
+    }
+    fs.writeFileSync(flowModelJsonFilePath, flowModelToJSONString(oFlowModel));
+  }
+
+  function saveNodeModelToFile(oNodeModel) {
+    // get storage path
+    var storeDir = getPathFromCode(oNodeModel.getInfo().getCode());
+    var nodeModelJsonFilePath = storeDir + path.sep + 'nodeModel.json';
+    // persist
+    if (!fs.existsSync(storeDir)) {
+      mkdirp.sync(storeDir);
+    }
+    fs.writeFileSync(nodeModelJsonFilePath, nodeModelToJSONString(oNodeModel));
+  }
+
+  function getPathFromCode(sCode) {
+    var codePath = sCode.replace(/\./g, path.sep);
+    return MVC_FLOW_REPO_ROOT + path.sep + codePath;
+  }
+
+  function readFlowModelCoreFromFile(sCode) {
+    // get storage path
+    var storeDir = getPathFromCode(sCode);
+    var nodeModelJsonFilePath = storeDir + path.sep + 'flowModel.json';
+    var jsonString = fs.readFileSync(nodeModelJsonFilePath, {
+      encoding: 'utf-8'
+    });
+    return JSON.parse(jsonString);
+  }
+
+  function readNodeModelCoreFromFile() {
+    // get storage path
+    var storeDir = getPathFromCode(oNodeModel.getInfo().getCode());
+    var nodeModelJsonFilePath = storeDir + path.sep + 'nodeModel.json';
+    var jsonString = fs.readFileSync(nodeModelJsonFilePath, {
+      encoding: 'utf-8'
+    });
+    return JSON.parse(jsonString);
+  }
+
   return {
     saveFlowModelToFile: function(oFlowModel) {
-      console.log("FlowMaker.saveFlowModelToFile()");
+      console.log("FlowMaker.saveFlowModelToFile(<oFlowModel=[" + printInfo(oFlowModel.getInfo()) + "]>)");
       // e.g. a.b.c => a/b/c
-      var rootPath = os.homedir() + path.sep + '.mvcflow' + path.sep + 'repo';
-      var codePath = oFlowModel.getInfo().getCode().replace(/\./g, path.sep);
-      var fullDirPath = rootPath + path.sep + codePath;
-      var fullPath = fullDirPath + path.sep + 'flowModel.json';
-      console.log("path is:" + fullDirPath);
-      if (!fs.existsSync(fullDirPath)) {
-        mkdirp(fullDirPath, function(err) {
-          fs.writeFile(fullPath, flowModelToJSONString(oFlowModel), function(err) {
-            if (err) throw err;
-            console.log('It\'s saved!');
-          });
-        });
-      } else {
-        fs.writeFile(fullPath, flowModelToJSONString(oFlowModel), function(err) {
-          if (err) throw err;
-          console.log('It\'s saved!');
-        });
+      saveFlowModelCoreToFile(oFlowModel);
+      var aModels = oFlowModel.getNodeModels();
+      for (var i = 0; i < aModels.length; i++) {
+        var oModel = aModels[i];
+        if (oModel instanceof FlowModel) {
+          this.saveFlowModelToFile(oModel);
+        } else {
+          saveNodeModelToFile(oModel);
+        }
       }
     },
-    readFlowModelFromFile: function(sCode, callback) {
-      var rootPath = os.homedir() + path.sep + '.mvcflow' + path.sep + 'repo';
-      var codePath = sCode.replace(/\./g, path.sep);
-      var fullDirPath = rootPath + path.sep + codePath;
-      var fullPath = fullDirPath + path.sep + 'flowModel.json';
-      fs.readFile(fullPath, {
-        encoding: 'utf-8'
-      }, function(err, data) {
-        if (err) throw err;
-        console.log(data);
-        if (callback) {
-          callback(data);
-        }
-      });
+
+    readFlowModelFromFile: function(sCode) {
+      console.log("FlowMaker.readFlowModelFromFile(<sCode=[" + sCode + "]>)");
+      var oFM = readFlowModelCoreFromFile(sCode);
+      return oFM;
     }
   };
 })();
 
 var idSequenceNumber = 0;
 var randomSequenceNumber = 0;
-var uuid = require('node-uuid');
 
-function generateTarget() {
+function generateMockTarget() {
   var seq = idSequenceNumber++;
   var oTarget = new Target();
   oTarget.setId(uuid.v1());
-  oTarget.setInfo(generateInfo());
+  oTarget.setInfo(generateMockInfo());
   return oTarget;
 }
 
-function generateInfo() {
+function generateMockInfo() {
   var seq = randomSequenceNumber++;
   var oInfo = new Info();
   oInfo.setCode("code" + seq);
@@ -1137,6 +1184,7 @@ function generateInfo() {
 
 function generateNodeModel(oData) {
   var oNodeModel = new NodeModel();
+  oNodeModel.setInfo(new Info());
   oNodeModel.getInfo().setCode(oData.code);
   oNodeModel.getInfo().setName(oData.name);
   oNodeModel.getInfo().setRemark(oData.remark);
@@ -1144,14 +1192,15 @@ function generateNodeModel(oData) {
   return oNodeModel;
 }
 
-function generateNode(oModel) {
-  var oNode = new Node();
-  oNode.setId(uuid.v1());
-  console.log("generateNode() oModel.info: " + printInfo(oModel.getInfo()));
-  oModel.registerIntance(oNode);
-  console.log("generateNode() oNode.info: " + printInfo(oNode.getInfo()));
-  return oNode;
-}
+// function generateNode(oModel) {
+//   var oNode = new Node();
+//   oNode.setInfo(new Info());
+//   oNode.getInfo().setCode(oModel.getInfo().getCode());
+//   oNode.getInfo().setName(oModel.getInfo().getName());
+//   oNode.setId(uuid.v1());
+//   oNode.setModel(oModel);
+//   return oNode;
+// }
 
 function generateSource(oNode, sExit) {
   var oSource = {
@@ -1162,15 +1211,19 @@ function generateSource(oNode, sExit) {
 }
 
 function generateDestination(bFlowEnd, oValue) {
-  var oDestination = new ExitDestination();
-  oDestination.setTarget(oValue);
+  var oDestination = new Destination();
   oDestination.setFlowEnd(bFlowEnd);
+  if (bFlowEnd) {
+    oDestination.setTarget(oValue);
+  } else {
+    oDestination.setTarget(oValue.getId());
+  }
   return oDestination;
 }
 
 function generateFlowModel(oData) {
-  console.log("generateFlowModel(<oData=[" + printObject(oData) + "]>)");
   var oFlowModel = new FlowModel();
+  oFlowModel.setInfo(new Info());
   oFlowModel.getInfo().setCode(oData.code);
   oFlowModel.getInfo().setName(oData.name);
   oFlowModel.getInfo().setRemark(oData.remark);
@@ -1184,18 +1237,23 @@ function generateFlowEngine(oFlowModel) {
   return oFlowEngine;
 }
 
-function generateFlowNode(oFlowModel) {
-  var oFlowNode = new FlowNode();
-  oFlowNode.setId(uuid.v1());
-  console.log("generateFlow() oFlowModel.info: " + printInfo(oFlowModel.getInfo()));
-  oFlowModel.registerIntance(oFlowNode);
-  console.log("generateFlow() oFlowNode.info: " + printInfo(oFlowNode.getInfo()));
-  return oFlowNode;
-}
-
 function printInfo(oInfo) {
   if (oInfo && oInfo instanceof Info) {
     return "{code:\"" + oInfo.getCode() + "\", name:\"" + oInfo.getName() + "\", remark:\"" + oInfo.getRemark() + "\"}";
+  }
+  return "empty";
+}
+
+function printNode(oNode) {
+  if (oNode && oNode instanceof Node) {
+    return "{id:\"" + oNode.getId() + "\", info:{code:\"" + oNode.getInfo().getCode() + "\", name:\"" + oNode.getInfo().getName() + "\", remark:\"" + oNode.getInfo().getRemark() + "\"}}";
+  }
+  return "empty";
+}
+
+function printTarget(oTarget) {
+  if (oTarget && oTarget instanceof Target) {
+    return "{id:\"" + oTarget.getId() + "\", info:" + printInfo(oTarget.getInfo()) + "}";
   }
   return "empty";
 }
@@ -1227,7 +1285,7 @@ function printSource(oSource) {
 function printDestination(oDestination) {
   var str = "{";
   str += 'flowEnd:""' + oDestination.getFlowEnd() + '", ';
-  str += 'targer:"' + (oDestination.isFlowEnd() ? oDestination.getTarget() : oDestination.getTarget().getInfo().getName()) + '"';
+  str += 'target:"' + oDestination.getTarget() + '"';
   str += "}";
   return str;
 }
@@ -1246,30 +1304,55 @@ function nodeModelToJSONString(oNodeModel) {
   return JSON.stringify(oData);
 }
 
+function jsonStringToNodeModel(sJSONString) {
+  var oData = JSON.parse(sJSONString);
+  var oNodeModel = new oNodeModel();
+  oNodeModel.getInfo().setCode(oData.info.code);
+  oNodeModel.getInfo().setName(oData.info.name);
+  oNodeModel.getInfo().setRemark(oData.info.remark);
+  oNodeModel.setInputs(oData.inputs);
+  oNodeModel.setOutputs(oData.outputs);
+  oNodeModel.setExits(oData.exits);
+  return oNodeModel;
+}
+
 function nodeToJSONString(oNode) {
   var oData = {
     "id": oNode.getId(),
-    "exits": [],
     "info": {
       "code": oNode.getInfo().getCode(),
       "name": oNode.getInfo().getName(),
       "remark": oNode.getInfo().getRemark()
-    }
+    },
+    "exits": []
   };
   // process exits
   for (var i = 0; i < oNode.getExits().length; i++) {
     var oExtDst = oNode.getExits()[i];
     oData.exits[i] = {
-      "flowEnd": oExtDst.getFlowEnd(),
-      "target": ""
+      "isExit": oExtDst.getFlowEnd(),
+      "target": oExtDst.getTarget()
     };
-    if (oExtDst.isFlowEnd()) {
-      oData.exits[i].target = oExtDst.getTarget();
-    } else {
-      oData.exits[i].target = oExtDst.getTarget().getId();
-    }
   }
   return JSON.stringify(oData);
+}
+
+function jsonStringToNoe(sJSONString) {
+  var oData = JSON.parse(sJSONString);
+  var oNode = new Node();
+  oNode.setId(oData.id);
+  oNode.getInfo().setCode(oData.info.code)
+  oNode.getInfo().setName(oData.info.name)
+  oNode.getInfo().setRemark(oData.info.remark);
+  var aExtDsts = [];
+  for (var i = 0; i < oData.exits.length; i++) {
+    var oExit = oData.exits[i];
+    var oExtDst = new Destination();
+    oExtDst.setFlowEnd(oData.isExit);
+    oExtDst.setTarget(oData.target);
+    aExtDsts.push(oExtDst);
+  }
+  oNode.setExits(aExtDsts);
 }
 
 function flowModelToJSONString(oFlowModel) {
@@ -1292,9 +1375,16 @@ function flowModelToJSONString(oFlowModel) {
   }
 
   // for each node models
+  var version = 2;
+  // version 1 - init desgin, nodeModel Embed in flowModel
+  // version 2 - advaced desgin, nodeModel standalone, better ext
   for (var i = 0; i < oFlowModel.getNodeModels().length; i++) {
     var oModel = oFlowModel.getNodeModels()[i];
-    oData.nodeModels.push(nodeModelToJSONString(oModel));
+    if (version === 1) {
+      oData.nodeModels.push(nodeModelToJSONString(oModel));
+    } else if (version === 2) {
+      oData.nodes.push(oModel.getInfo().getCode());
+    }
   }
 
   // for each nodes
@@ -1309,8 +1399,6 @@ function flowModelToJSONString(oFlowModel) {
 // root of mvcflow fs, homedir/.mvcflow
 // mvcflowRoot/.
 
-var os = require("os");
-
 global.App = {
   run: function(global) {
     console.log("V3 mvcflow start");
@@ -1318,110 +1406,74 @@ global.App = {
     // start from create Node Model
     console.log("Test Class Target:");
     var oTarget = new Target();
-    oTarget.setId("001");
+    oTarget.setId(uuid.v1());
     oTarget.setInfo(new Info());
-    oTarget.getInfo().setCode("c001");
-    oTarget.getInfo().setName("n001");
-    oTarget.getInfo().setRemark("this is target");
-    console.log("target.id is: " + oTarget.getId());
-    console.log("target.info is: " + printInfo(oTarget.getInfo()));
+    oTarget.getInfo().setCode("a.b.c.D");
+    oTarget.getInfo().setName("D 0");
+    oTarget.getInfo().setRemark("this is a target");
+    console.log("oTarget: " + printTarget(oTarget));
     console.log("");
 
     console.log("Test Class Scope:");
     var oScope = new Scope();
     oScope.registerTarget(oTarget);
-    var oScopeTarget = oScope.getTarget("001");
-    console.log("scoped target.id is: " + oScopeTarget.getId());
-    console.log("scoped target.info is: " + printInfo(oScopeTarget.getInfo()));
-    oScope.getAllTargetIds();
-    var oGenedInfo = generateInfo();
-    console.log("gened info is: " + printInfo(oGenedInfo));
-    var oGenedTarget = generateTarget();
-    console.log("gened taget.info is: " + printInfo(oGenedTarget.getInfo()));
+    var oScopeTarget = oScope.getTarget(oTarget.getId());
+    console.log("oScopeTarget is: " + printTarget(oScopeTarget));
+    var oGenedInfo = generateMockInfo();
+    var oGenedTarget = generateMockTarget();
     for (var i = 0; i < 10; i++) {
-      var oGenedItemTaget = generateTarget();
-      console.log("gened item[" + i + "]taget.info is: " + printInfo(oGenedItemTaget.getInfo()));
+      var oGenedItemTaget = generateMockTarget();
       oScope.registerTarget(oGenedItemTaget);
     }
     var aProps = oScope.getAllTargetIds()
     console.log("scope all tIds are: " + aProps);
-    console.log("scoped target.info.name is: " + oScope.getTarget(aProps[0]).getInfo().getName());
     console.log("");
 
     console.log("Test Class NodeModel, Node:");
-    // Create a class - Node model
-    var oNewNodeModel = new NodeModel();
-    oNewNodeModel.getInfo().setCode("mvcflow.sample.nodes.New");
-    oNewNodeModel.getInfo().setRemark("New NM");
-    console.log("newNodeModel.info is: " + printInfo(oNewNodeModel.getInfo()));
-    oNewNodeModel.setExits(["e001", "e002"]);
-    console.log("newNodeModel eixts:" + oNewNodeModel.getExits());
-
-    // Instanciate a instace
-    var oNewNode = new Node();
-    oNewNode.setModel(oNewNodeModel);
-    console.log("newNode.model.info :" + printInfo(oNewNode.getModel().getInfo()));
-
-    var oGenNewNodeModel = generateNodeModel({
-      "code": "mvcflow.sample.nodes.GenNew",
-      "name": "GenNew",
-      "remark": "This is GenNew node",
-      "exits": ["e001", "e002"]
-    });
-    console.log("oGenNewNodeModel.info: " + printInfo(oGenNewNodeModel.getInfo()));
-    var oGenNewNode = generateNode(oGenNewNodeModel);
-    console.log("oGenNewNode.info: " + printInfo(oGenNewNode.getInfo()));
-    console.log("");
-
-    console.log("Test Class FlowModel:");
-    var oFlowModel = new FlowModel();
-    console.log("flowModle inst.info: " + oFlowModel.getInfo());
-    oFlowModel.getInfo().setCode("mvcflow.sample.flows.Menu");
-    oFlowModel.getInfo().setRemark("Menu FM");
-    oFlowModel.setExits(["flowend"]);
-    console.log("flowModel.info.remark is :" + oFlowModel.getInfo().getRemark());
-    oFlowModel.setEntry(oNewNode);
-    console.log("flowModel.entry.info: " + printInfo(oFlowModel.getEntry().getInfo()));
-
     var oGuestNodeModel = generateNodeModel({
       "code": "mvcflow.sample.nodes.Guest",
       "name": "Guest",
       "remark": "This is Guest node",
       "exits": ["logon", "exit"]
     });
-    console.log("oGuestNodeModel.info: " + printInfo(oGuestNodeModel.getInfo()));
-    var oGuestNode = generateNode(oGuestNodeModel);
-    console.log("oGuestNode.info: " + printInfo(oGuestNode.getInfo()));
-    oFlowModel.addNode(oGuestNode);
-
+    var oGuestNode = oGuestNodeModel.newInstance();
     var oLogonNodeModel = generateNodeModel({
       "code": "mvcflow.sample.nodes.Logon",
       "name": "Logon",
       "remark": "This is Logon node",
       "exits": ["success", "error"]
     });
-    var oLogonNode = generateNode(oLogonNodeModel);
-    oFlowModel.addNode(oLogonNode);
-
+    var oLogonNode = oLogonNodeModel.newInstance();
     var oHomeNodeModel = generateNodeModel({
       "code": "mvcflow.sample.nodes.Home",
       "name": "Home",
       "remark": "This is Home node",
       "exits": ["logout", "business"]
     });
-    var oHomeNode = generateNode(oHomeNodeModel);
-    oFlowModel.addNode(oHomeNode);
-
+    var oHomeNode = oHomeNodeModel.newInstance();
     var oBusinessNodeModel = generateNodeModel({
       "code": "mvcflow.sample.nodes.Business",
       "name": "Business",
       "remark": "This is Business node",
       "exits": ["complete"]
     });
-    var oBusinessNode = generateNode(oBusinessNodeModel);
+    var oBusinessNode = oBusinessNodeModel.newInstance();
+    console.log("");
+
+    console.log("Test Class FlowModel:");
+    var oFlowModel = new FlowModel();
+    oFlowModel.setInfo(new Info());
+    oFlowModel.getInfo().setCode("mvcflow.sample.flows.Menu");
+    oFlowModel.getInfo().setName("Menu");
+    oFlowModel.getInfo().setRemark("Menu FM");
+    oFlowModel.setExits(["flowend"]);
+
+    oFlowModel.addNode(oGuestNode);
+    oFlowModel.addNode(oLogonNode);
+    oFlowModel.addNode(oHomeNode);
     oFlowModel.addNode(oBusinessNode);
 
-    // Flow
+    // Flow mappings
     // Guest.exit -> flow.flowend
     // Guest.logon -> logon
     // Logon.success -> Home
@@ -1440,81 +1492,74 @@ global.App = {
 
     var oFlowEngine = new FlowEngine();
     oFlowEngine.setFlowModel(oFlowModel);
-
     oFlowEngine.start();
-    var oCurrentNode = oFlowEngine.getCurrentNode();
-    console.log("flowEngine.currentNode.info: " + printInfo(oCurrentNode.getInfo()));
     oFlowEngine.goToNextNode("logon");
-    console.log("flowEngine.currentNode.info: " + printInfo(oFlowEngine.getCurrentNode().getInfo()));
     oFlowEngine.goToNextNode("success");
-    console.log("flowEngine.currentNode.info: " + printInfo(oFlowEngine.getCurrentNode().getInfo()));
     oFlowEngine.goToNextNode("business");
-    console.log("flowEngine.currentNode.info: " + printInfo(oFlowEngine.getCurrentNode().getInfo()));
     oFlowEngine.goToNextNode("complete");
-    console.log("flowEngine.currentNode.info: " + printInfo(oFlowEngine.getCurrentNode().getInfo()));
     oFlowEngine.goToNextNode("logout");
-    console.log("flowEngine.currentNode.info: " + printInfo(oFlowEngine.getCurrentNode().getInfo()));
     oFlowEngine.goToNextNode("exit");
     console.log("");
 
     // Test subflow
     console.log("Test Sub Flow");
-    var oBusinessFlowModel = generateFlowModel({
-      "code": "mvcflow.sample.flows.BusinessFlow",
-      "name": "BusinessFlow",
-      "remark": "Master Detail Business flow",
-      "exits": ["complete"]
-    });
-
+    // NodeModel & Nodes
     var oBusinessMasterNodeModel = generateNodeModel({
       "code": "mvcflow.sample.nodes.BusinessMaster",
       "name": "BusinessMaster",
       "remark": "This is Business Master node",
       "exits": ["detail", "exit"]
     });
-    var oBusinessMasterNode = generateNode(oBusinessMasterNodeModel)
-    oBusinessFlowModel.addNode(oBusinessMasterNode);
-
+    var oBusinessMasterNode = oBusinessMasterNodeModel.newInstance();
     var oBusinessDetailNodeModel = generateNodeModel({
       "code": "mvcflow.sample.nodes.BusinessDetail",
       "name": "BusinessDetail",
       "remark": "This is Business Detail node",
       "exits": ["master"]
     });
-    var oBusinessDetailNode = generateNode(oBusinessDetailNodeModel);
+    var oBusinessDetailNode = oBusinessDetailNodeModel.newInstance();
+    // FlowModel
+    var oBusinessFlowModel = generateFlowModel({
+      "code": "mvcflow.sample.flows.BusinessFlow",
+      "name": "BusinessFlow",
+      "remark": "Master Detail Business flow",
+      "exits": ["complete"]
+    });
+    var oBusinessFlowNode = oBusinessFlowModel.newInstance();
+    oBusinessFlowModel.addNode(oBusinessMasterNode);
     oBusinessFlowModel.addNode(oBusinessDetailNode);
-
     oBusinessFlowModel.setEntry(oBusinessMasterNode);
     oBusinessFlowModel.addMapping(generateSource(oBusinessMasterNode, "detail"), generateDestination(false, oBusinessDetailNode));
     oBusinessFlowModel.addMapping(generateSource(oBusinessMasterNode, "exit"), generateDestination(true, "complete"));
     oBusinessFlowModel.addMapping(generateSource(oBusinessDetailNode, "master"), generateDestination(false, oBusinessMasterNode));
-
+    // FlowEngine run
     var oBusinessFlowEngine = generateFlowEngine(oBusinessFlowModel);
     oBusinessFlowEngine.start();
-    console.log("oBusinessFlowEngine.currentNode.info: " + printInfo(oBusinessFlowEngine.getCurrentNode().getInfo()));
     oBusinessFlowEngine.goToNextNode("detail");
-    console.log("oBusinessFlowEngine.currentNode.info: " + printInfo(oBusinessFlowEngine.getCurrentNode().getInfo()));
     oBusinessFlowEngine.goToNextNode("master");
-    console.log("oBusinessFlowEngine.currentNode.info: " + printInfo(oBusinessFlowEngine.getCurrentNode().getInfo()));
     oBusinessFlowEngine.goToNextNode("exit");
     console.log("");
 
     // Test App Flow (Embed with Sub Flow)
     console.log("Test App Flow");
+    // FlowModel
     var oAppFlowModel = generateFlowModel({
       "code": "mvcflow.sample.flows.App",
       "name": "App",
       "remark": "This is App flow",
       "exits": ["flowend"]
     });
-
+    // dependcies
+    oAppFlowModel.registerNodeModel(oGuestNodeModel);
+    oAppFlowModel.registerNodeModel(oLogonNodeModel);
+    oAppFlowModel.registerNodeModel(oHomeNodeModel);
+    oAppFlowModel.registerNodeModel(oBusinessFlowModel);
+    // nodes
     oAppFlowModel.addNode(oGuestNode);
     oAppFlowModel.addNode(oLogonNode);
     oAppFlowModel.addNode(oHomeNode);
-
-    var oBusinessFlowNode = generateFlowNode(oBusinessFlowModel);
     oAppFlowModel.addNode(oBusinessFlowNode);
-
+    // mappings
     oAppFlowModel.setEntry(oGuestNode);
     oAppFlowModel.addMapping(generateSource(oGuestNode, "logon"), generateDestination(false, oLogonNode));
     oAppFlowModel.addMapping(generateSource(oGuestNode, "exit"), generateDestination(true, "flowend"));
@@ -1523,89 +1568,42 @@ global.App = {
     oAppFlowModel.addMapping(generateSource(oHomeNode, "logout"), generateDestination(false, oGuestNode));
     oAppFlowModel.addMapping(generateSource(oHomeNode, "business"), generateDestination(false, oBusinessFlowNode));
     oAppFlowModel.addMapping(generateSource(oBusinessFlowNode, "complete"), generateDestination(false, oHomeNode));
-
+    // FlowEngine run
     var oAppFlowEngine = generateFlowEngine(oAppFlowModel);
     oAppFlowEngine.start();
-    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("logon");
-    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("success");
-    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("business");
-    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("detail");
-    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("master");
-    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("exit");
-    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("logout");
-    //console.log("oAppFlowEngine.currentNode.info: " + printInfo(oAppFlowEngine.getCurrentNode().getInfo()));
     oAppFlowEngine.goToNextNode("exit");
-    console.log("");
-
-    console.log("Test FlowModel registerNodeModel");
-    var oRegFlowModel = generateFlowModel({
-      "code": "mvcflow.sample.flows.Reg",
-      "name": "Reg",
-      "remark": "This is Reg flow",
-      "exits": ["flowend"]
-    });
-    oRegFlowModel.registerNodeModel(oGuestNodeModel);
-    oRegFlowModel.registerNodeModel(oLogonNodeModel);
-    oRegFlowModel.registerNodeModel(oHomeNodeModel);
-    oRegFlowModel.registerNodeModel(oBusinessNodeModel);
-    console.log("flowModel.nodeModels: " + printObject(oRegFlowModel.getNodeModels()));
     console.log("");
 
     console.log("Test FlowMaker");
     //FlowMaker.saveFlowModelToFile(oAppFlowModel);
     //FlowMaker.readFlowModelFromFile();
-
     // How to serialize FlowModel
     // Implements ways of NodeModel to string.
     // Implements ways of Node to string (without model), use code for reference
     // Implements ways of Mapping to string, use ID instead Node.
     // If depends on a FlowModel, load dependcies FlowModel first.
-
-    console.log("os.homedir: " + os.homedir());
-    console.log("");
-
-    console.log("Test serialize");
-    var oSerFlowModel = generateFlowModel({
-      "code": "mvcflow.sample.flows.Ser",
-      "name": "Ser",
-      "remark": "This is Ser flow",
-      "exits": ["flowend"]
-    });
-    oSerFlowModel.registerNodeModel(oGuestNodeModel);
-    oSerFlowModel.registerNodeModel(oLogonNodeModel);
-    oSerFlowModel.registerNodeModel(oHomeNodeModel);
-    oSerFlowModel.registerNodeModel(oBusinessNodeModel);
-    oSerFlowModel.addNode(oGuestNode);
-    oSerFlowModel.addNode(oLogonNode);
-    oSerFlowModel.addNode(oHomeNode);
-    oSerFlowModel.addNode(oBusinessNode);
-    oSerFlowModel.setEntry(oGuestNode);
-    oSerFlowModel.addMapping(generateSource(oGuestNode, "logon"), generateDestination(false, oLogonNode));
-    oSerFlowModel.addMapping(generateSource(oGuestNode, "exit"), generateDestination(true, "flowend"));
-    oSerFlowModel.addMapping(generateSource(oLogonNode, "success"), generateDestination(false, oHomeNode));
-    oSerFlowModel.addMapping(generateSource(oLogonNode, "error"), generateDestination(false, oGuestNode));
-    oSerFlowModel.addMapping(generateSource(oHomeNode, "logout"), generateDestination(false, oGuestNode));
-    oSerFlowModel.addMapping(generateSource(oHomeNode, "business"), generateDestination(false, oBusinessNode));
-    oSerFlowModel.addMapping(generateSource(oBusinessNode, "complete"), generateDestination(false, oHomeNode));
     var nodeModelJsonString = nodeModelToJSONString(oGuestNodeModel);
-    console.log("nodeModelJsonString: " + nodeModelJsonString);
+    console.log("nodeModelToJSONString: " + nodeModelJsonString);
     var nodeJsonString = nodeToJSONString(oGuestNode);
-    console.log("nodeJsonString: " + nodeJsonString);
-    var flowModelJsonString = flowModelToJSONString(oSerFlowModel);
-    console.log("flowModelJsonString: " + flowModelJsonString);
-    console.log("businessFlow JSONString:" + flowModelToJSONString(oBusinessFlowModel));
-
+    console.log("nodeToJSONString: " + nodeJsonString);
+    var flowModelJsonString = flowModelToJSONString(oBusinessFlowModel);
+    console.log("flowModelToJSONString: " + flowModelJsonString);
+    var subflowModelJsonStringWith = flowModelToJSONString(oAppFlowModel);
+    console.log("subflowModelJsonStringWith: " + flowModelJsonString);
     // FlowMaker.saveFlowModelToFile(oSerFlowModel);
     // FlowMaker.readFlowModelFromFile("mvcflow.sample.flows.Ser", function(data) {
     //   console.log("read JSONString is:" + data);
     // });
+    //FlowMaker.saveFlowModelToFile(oAppFlowModel);
+    var oReadFM = FlowMaker.readFlowModelFromFile("mvcflow.sample.flows.BusinessFlow");
+    console.log("readFM:" + printObject(oReadFM));
   }
 };
 global.App.run(global);
