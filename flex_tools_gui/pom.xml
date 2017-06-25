@@ -2,9 +2,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.cachetian.tools</groupId>
-  <artifactId>office_desktop_tools</artifactId>
+  <artifactId>flex_tools_gui</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>office_desktop_tools</name>
+  <name>flex_tools_gui</name>
   <url>http://maven.apache.org</url>
 </project>
