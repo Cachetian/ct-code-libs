@@ -6,6 +6,7 @@ Change history maintains the summary of each change.
 
 * 2017-04-27, Add why and what.
 * 2017-04-29, Initial build up history.
+* 2017-06-25, Refactor folder structure, remove stacks folder.
 
 ## content
 ### Why tools?
@@ -18,7 +19,5 @@ The model is about how we make tool, and how we manage the tool, in a perfect li
 Ideally speaking, it's an sharp sword that can cut things. In fact so far, it's code that can make something more efficient.
 ### folder structure
 the structure may be changed at times.
->tools <- project name and root
->>flex <- flex stack
-
->>java <- java stack
+>tools <- the tools
+>>modules <- each tool project root folder.
