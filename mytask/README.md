@@ -21,11 +21,19 @@ Get task action functions.
 ### 4. Create task action
 Create task action functions.
 ## Technical Spec.
-### 0. Use spring boot implement architect.
+### Techniques
+#### 0. Use spring boot implement architect.
 Spring boot, maven
-### 1. Use openUI5 implement UI.
+#### 1. Use openUI5 implement UI.
 openUI5
-### 2. Use Java Olingo and hibernate implement OData and JPA
+#### 2. Use Java Olingo and hibernate implement OData and JPA
 Olingo, Spring JPA
-### 3. User HSQL as database.
+#### 3. User HSQL as database.
 HSQL db
+### Schema
+#### my_task
+* task_id
+* task_created_at
+* task_name
+* task_catalog
+* task_star
