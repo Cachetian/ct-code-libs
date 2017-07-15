@@ -9,18 +9,18 @@ How to achieve that? answer is My Object.
 ### Schema
 schema
 ```js
-var myobject_schema_metadata = {
-  "object_id":"String type UUID char(36)",
-  "object_name":"String type char(64) unique index"
-  "object_type":"data/mapping",
-  "property":"String type varchar(36)"
-  "property_name":"String type varchar(36)",
-  "property_value":"blog type or varchar(512)"
+var object_schema = {
+  "object_id":"String type char(36), UUID",
+  "object_name":"String type char(64), Readable name which is unique and for indexing"
+  "object_type":"int number(1), 0 - Entity, 1- Relation",
+  "data_parent":"String type varchar(36)"
+  "data_name":"String type varchar(36)",
+  "data_value":"Blog type or varchar(512)"
 }
 ```
 object_type: data node or mapping node
 entity object, relation object
-### Scenario
+### Business Scenarios
 pure data object
 ```js
 {
@@ -31,19 +31,16 @@ pure data object
   "data_value": "the myobject project"
 }
 ```
-sample data object A
+sample of entity objects
 ```js
-{
+var entity_object_A = {
   "object_id":"eb5d3995-b941-49ef-987c-be3f9aa3f52c",
   "object_name":"com.cachetian.tools.myobject.doc.sample.pure_data_object_a",
   "object_type":"data",
   "data_name": "remark",
   "data_value": "sample data object A"
 }
-```
-
-```js
-{
+var entity_object_B = {
   "object_id":"d0395a6e-41d6-411e-a511-94f88960f802",
   "object_name":"com.cachetian.tools.myobject.doc.sample.pure_data_object_b",
   "object_type":"data",
@@ -53,7 +50,7 @@ sample data object A
 ```
 pure mapping object
 ```js
-{
+var relation_object = {
   "object_id":"d67414f4-22af-4aa4-951a-e9970a4373b9",
   "object_name":"com.cachetian.tools.myobject.doc.sample.pure_mapping_object",
   "object_type":"mapping",
@@ -82,15 +79,41 @@ master data description
 }
 ```
 example for define a class:
+following my object code described a class definition.
 ```js
 var entity_object_class_mytask = new EntityObject();
+
 var entity_object_property_id = new EntityObject();
+var relation_object_property_id_propert_of_to_class_mytask = new RelationObject();
+
 var entity_object_proepery_created_at = new EntityObject();
+var relation_object_property_created_at_propert_of_to_class_mytask = new RelationObject();
+
 var entity_object_property_name = new EntityObject();
+var relation_object_property_name_propert_of_to_class_mytask = new RelationObject();
+
 var entity_object_proepery_star = new EntityObject();
+var relation_object_property_star_propert_of_to_class_mytask = new RelationObject();
+
 var entity_object_property_catalog = new EntityObject();
-
-var relation_object_property_id_belong_to_class_mytask = new RelationObject();
-
-
+var relation_object_property_catalog_propert_of_to_class_mytask = new RelationObject();
 ```
+class mytask;
+property id;
+property created_at;
+property name;
+property star;
+property catalog;
+mapping property id to class mytask;
+mapping property created_at to class mytask;
+mapping property name to class mytask;
+mapping property star to class mytask;
+mapping property catalog to class mytask;
+
+This process is modeling.
+
+objectService provide
+getChildrenObjects
+getParentObject
+getObjectMappings
+getMappingObjects

@@ -7,6 +7,7 @@ Change history maintains the summary of each change.
 * 2017-04-27, Add why and what.
 * 2017-04-29, Initial build up history.
 * 2017-06-25, Refactor folder structure, remove stacks folder.
+* 2017-07-15, Add sub-modules folder, add Idea section.
 
 ## content
 ### Why tools?
@@ -20,4 +21,9 @@ Ideally speaking, it's an sharp sword that can cut things. In fact so far, it's 
 ### folder structure
 the structure may be changed at times.
 >tools <- the tools
->>modules <- each tool project root folder.
+>>modules <- the root folder, each tool project has a root folder.
+>>>sub-modules <- modules should be big, sub-modules could specific.
+
+## Ideas
+### Model World
+real world is like a growing model, time never goes back, no matter you modify or event delete the record, seems somehow go back, however it is not, you just add some process, the modify or delete actually is the new action should be recorded. which means, unless you do nothing, change means add new logs.
