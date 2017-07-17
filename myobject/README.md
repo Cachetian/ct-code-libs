@@ -117,3 +117,10 @@ getChildrenObjects
 getParentObject
 getObjectMappings
 getMappingObjects
+
+### Performance
+If the data is completely unique may cause performance issue. because there might be huge numbers of data if each data contains very tiny information. so, the data_value field should contains more information as much as self described.
+it's just like a document which has too many reference, we know reference can keep unified, however it's not good for read. 1 way is to separate read mode and archive  mode. the other way is to keep index or summary information of each reference.
+
+### Future
+Use CRUD do modeling. just use a list of action items can you do the modeling work. because modeling work is based on myobject, and myobject can be create by CRUD such APIs. So just like docker, just use a batch line of plain text which write the SQL of CRUD action items can you finished the modeling. all runtime work just do in the runtime.
