@@ -1,6 +1,11 @@
 My Object
 ====
-My Object, a unified technical object hold all business.
+My Object, a unified technical object hold all business, is a way of IT modeling.
+It's action-style-API, plain-text-written, unified-object-based modeling technique.
+* all data defined in sequence list of action item logs.
+* support both context independent and dependent action item
+* based on myobject technical foundation.
+
 ## Requirement
 IT should be built based on a unified unit, which should have minimal while maximal essential information what a unit should have.
 Because business should never stop, change on business requires no restart server to take effect.
