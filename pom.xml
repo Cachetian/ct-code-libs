@@ -8,9 +8,11 @@
   <name>tools</name>
   <url>http://maven.apache.org</url>
   <modules>
+  	<module>flex_libary</module>
+  	<module>flex_tools_gui</module>
   	<module>mapdb</module>
   	<module>prototypes</module>
-    <module>flex_ajax</module>
-    <module>office_desktop_tools</module>
+  	<module>myobject</module>
+  	<module>ums</module>
   </modules>
 </project>

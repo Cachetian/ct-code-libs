@@ -33,10 +33,14 @@ public class MapDatabaseTest extends TestCase {
 		MapDatabase.getInstance().close();
 		assertEquals("hello", value);
 		
+		MapDatabase.getInstance().open();
 		String username = MapdbFactory.getInstance().getDB().getValue("com.cachetian.tools.mapdb.username");
 		if (username == null || username.equals("")){
 			MapdbFactory.getInstance().getDB().setValue("com.cachetian.tools.mapdb.username", "cachetian");
 		}
+		username = MapdbFactory.getInstance().getDB().getValue("com.cachetian.tools.mapdb.username");
+		System.out.println(username);
+		MapDatabase.getInstance().close();
 		assertEquals("cachetian", username);
 	}
 
